@@ -1,6 +1,6 @@
-const { startBouncing } = require("./bouncing");
-const { startOrbit } = require("./orbiting");
-const { startGello } = require("./gello");
+const { startBouncing } = require("./phyisics/bouncing");
+const { startOrbit } = require("./phyisics/orbiting");
+const { startGello } = require("./phyisics/gello");
 
 const bouncingBtn = document.querySelector("#bouncing-btn");
 const orbitingBtn = document.querySelector("#orbiting-btn");

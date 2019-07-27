@@ -1,9 +1,9 @@
-const { VectorClass } = require("./vector")
-const CountFrames = require("./countFrames");
+const { VectorClass } = require("../vector")
+const CountFrames = require("../countFrames");
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const { BallClass } = require("./ball");
-const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("./helpers");
+const { BallClass } = require("../ball");
+const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("../helpers");
 
 let animationId: number;
 let framesCounter: CountFramesClass;
