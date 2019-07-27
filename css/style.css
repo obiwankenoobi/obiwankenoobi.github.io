@@ -9,3 +9,19 @@
 nav { 
     margin-bottom: 10px;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-bar {
+    
+}
+
+.canvas-container {
+    width:100%;
+    display: flex;
+    justify-content: flex-end;
+    
+}

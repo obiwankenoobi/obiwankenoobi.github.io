@@ -8,16 +8,22 @@
     <title>Document</title>
 </head>
 <body>
-    <nav>
-        <div style="list-style-type:none; display: flex; flex-direction: row;">
-   
-            <li class="nav-item" id="bouncing-btn" style="cursor: pointer;">Bouncing</li>
-            <li class="nav-item" id="orbiting-btn" style="cursor: pointer;">Orbiting</li>
-            <li class="nav-item" id="gello-btn" style="cursor: pointer;">Gello</li>
 
+    <div class="container">
+        <div class="nav-bar" style="list-style-type:none;">
+            <p>Physics</p>
+            <div style="margin-left: 20px;">
+                <p class="nav-item" id="bouncing-btn" style="cursor: pointer;">Bouncing</p>
+                <p class="nav-item" id="orbiting-btn" style="cursor: pointer;">Orbiting</p>
+                <p class="nav-item" id="gello-btn" style="cursor: pointer;">Gello</p>
+            </div>
         </div>
-    </nav>
-    <canvas id="canvas" width="400" height="400"></canvas>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="400" height="400"></canvas>
+        </div>
+    </div>
+
     <script src="../build/bundle.js"></script>
 </body>
 </html>
