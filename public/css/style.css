@@ -1,0 +1,11 @@
+.nav-item {
+    margin-right: 20px;
+}
+.nav-item:hover {
+    margin-right: 20px;
+    color:teal;
+}
+
+nav { 
+    margin-bottom: 10px;
+}
