@@ -22,8 +22,6 @@ const defaultConfig: Config = {
         this.mass     = config.mass;
         this.pos      = new VectorClass(config.pos.x, config.pos.y);
         this.radius   = this.mass * 5;
-
-        console.log(config.acc, this.acc.y, this.velocity.y)
     }
 
     move() {
