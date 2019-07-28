@@ -83,4 +83,4 @@ interface VectorClass {
     y: number
 }
 
- { VectorClass };
+export { VectorClass };
