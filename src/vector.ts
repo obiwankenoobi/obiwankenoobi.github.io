@@ -1,4 +1,6 @@
-
+export function randomNumber(min:number ,max: number) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
 class VectorClass {
     constructor(x: number = 0, y: number = 0) {
         this.x = x;
@@ -20,7 +22,7 @@ class VectorClass {
     }
 
     static sub(vectorA: VectorClass, vectorB: VectorClass) {
-        return new VectorClass(vectorA.x - vectorB.x, vectorA.x - vectorB.y);
+        return new VectorClass(vectorA.x - vectorB.x, vectorA.y - vectorB.y);
     }
 
     mult(multBy: number) {
@@ -41,7 +43,12 @@ class VectorClass {
     }
 
     mag() {
-        return Math.ceil(Math.sqrt((this.x * this.x) + (this.y * this.y)));
+        return Math.sqrt((this.x * this.x) + (this.y * this.y));
+    }
+
+    setMag(num: number) {
+        this.normalize();
+        this.mult(num);
     }
 
     normalize() {
@@ -61,8 +68,8 @@ class VectorClass {
     }
 
     static randomVector(canvasWidth: number, canvasHight: number) {
-        const x: number = Math.floor(Math.random() * canvasWidth);
-        const y: number = Math.floor(Math.random() * canvasHight);
+        const x: number = Math.floor(randomNumber(-canvasWidth, canvasWidth));
+        const y: number = Math.floor(randomNumber(-canvasHight, canvasHight));
         return new VectorClass(x, y);
     }
 
@@ -76,4 +83,4 @@ interface VectorClass {
     y: number
 }
 
-export { VectorClass };
+ { VectorClass };

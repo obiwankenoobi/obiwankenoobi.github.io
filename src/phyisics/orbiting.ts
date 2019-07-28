@@ -3,7 +3,7 @@ const CountFrames = require("../countFrames");
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const { BallClass,  BallConfig } = require("../ball");
-const { bounderyCheck, drawFrameCounter } = require("../helpers");
+const { bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
 
 let animationId: number;
 
@@ -35,8 +35,8 @@ function setupOrbit() {
 
     attractedConfig = {
         acc:      { x: 0, y: 0 },
-        pos:      { x: canvas.width / 4, y:  canvas.height / 4 },
-        velocity: { x: 1, y: 0 },
+        pos:      { x: canvas.width / 2, y:  canvas.height / 4 },
+        velocity: { x: 1.75, y: 0 },
         mass: 1
     }
 

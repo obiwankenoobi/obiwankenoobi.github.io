@@ -3,7 +3,7 @@ const CountFrames = require("../countFrames");
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const { BallClass } = require("../ball");
-const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("../helpers");
+const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
 
 let animationId: number;
 let framesCounter: CountFramesClass;
