@@ -16,6 +16,31 @@ class Rocket extends BallClass {
     }
 
 
+    bounderyCheck(target: typeof VectorClass) {
+   
+        const distance = VectorClass.sub(this.pos, target);
+        const distanceMagnitude = distance.mag();
+        
+    
+        if (this.pos.x >= canvas.width) {
+            this.crashed = true;
+        } else if (this.pos.x < 0) {
+            this.crashed = true;
+        }
+        
+    
+        if (this.pos.y >= canvas.height - this.radius / 2) {
+            this.crashed = true;
+        }  else if (this.pos.y < 0) {
+            this.crashed = true;
+        }
+    
+        if (distanceMagnitude < 10) {
+            this.complete = true;
+        }
+    }
+
+
     calcFitness(target: typeof VectorClass) {
         const distance = VectorClass.sub(this.pos, target);
         const magnitude = distance.mag();
@@ -23,15 +48,7 @@ class Rocket extends BallClass {
 
         if (this.complete) {
             this.fitness *= 10;
-            console.log("complete", this.pos)
         }
-        // console.log("==========================")
-        // console.log("==========================")
-        // console.log("==========================")
-        // console.log("this.pos", this.pos)
-        // console.log("target", target)
-        // console.log("this.fitness", this.fitness)
-
     }
 
     mutate() {

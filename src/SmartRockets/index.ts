@@ -21,31 +21,7 @@ function rocketSetup(): void {
     canvas.style.backgroundColor = "#000";
 }
 
-function bounderyCheck(ball: typeof Rocket, canvas: HTMLCanvasElement) {
-   
-    const distance = VectorClass.sub(ball.pos, target);
-    const magnitude = distance.mag();
-    
 
-    if (ball.pos.x >= canvas.width) {
-        ball.crashed = true;
-    } else if (ball.pos.x < 0) {
-        ball.crashed = true;
-    }
-    
-
-    if (ball.pos.y >= canvas.height - ball.radius / 2) {
-        ball.crashed = true;
-    }  else if (ball.pos.y < 0) {
-        ball.crashed = true;
-    }
-
-    if (magnitude < 10) {
-        console.log("complete")
-        console.log({magnitude, ball: ball.pos, target, distance, mag:magnitude })
-        ball.complete = true;
-    }
-}
 
 
 function drawTarget() {
@@ -61,6 +37,7 @@ function drawRocket(rocket:typeof Rocket): void {
     ctx.beginPath();
     ctx.fillStyle = "red";
     rocket.applyForce(rocket.dna.genes[framesCounter]);
+    rocket.bounderyCheck(target);
     rocket.move();
     ctx.arc(rocket.pos.x, rocket.pos.y, rocket.radius, 0, 2 * Math.PI);
     ctx.fill();
@@ -77,7 +54,6 @@ function drawRockets(rockets:typeof Population): void {
     } 
     
     for (const rocket of rockets.population) {
-        bounderyCheck(rocket, canvas);
         if (!rocket.crashed && !rocket.complete) {
             drawRocket(rocket);
         }

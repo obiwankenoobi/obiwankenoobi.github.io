@@ -12,13 +12,10 @@ class Population {
 
     // pick a parent based on its score
     pickOne(): typeof Rocket {
-        //console.log("this.population", this.population)
         let random = Math.random();
-
         let idx = 0;
         
         while (random > 0) {
-           // console.log("idx", idx)
             random -= this.population[idx].fitness;
             idx++;
         }
@@ -39,20 +36,8 @@ class Population {
         });
 
         // normalizing fitness between 0-1
-        this.population.forEach(citizen => {
-            citizen.fitness = citizen.fitness / maxFitness;
-            
-            // console.log("==========================")
-            // console.log("==========================")
-            // console.log("==========================")
-            // console.log("citizen.pos", citizen.pos)
-            // console.log("target", target)
-            // console.log("citizen.fitness", citizen.fitness)
-        });
-
-        
-
-
+        this.population.forEach(citizen => 
+            citizen.fitness = citizen.fitness / maxFitness);
     }
 
 
