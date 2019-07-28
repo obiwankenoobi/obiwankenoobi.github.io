@@ -1,8 +1,9 @@
-const { VectorClass } = require("../vector")
-const CountFrames = require("../countFrames");
+import { VectorClass } from "../vector";
+import { BallClass } from "../ball";
+import { CountFramesClass } from "../countFrames";
+
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const { BallClass } = require("../ball");
 const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
 
 let animationId: number;
@@ -14,7 +15,7 @@ function setupGello() {
     balls = []; // clearing balls
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#000";
-    framesCounter = new CountFrames();
+    framesCounter = new CountFramesClass();
     balls = createBalls(5, canvas);
 }
 
@@ -30,10 +31,10 @@ function isInsideGello(x: number, y: number) {
     return y > canvas.height / 2;
 }
 
-function drawBall(item: typeof BallClass, color: string) {
+function drawBall(item: BallClass, color: string) {
 
-    let drag: typeof VectorClass;
-    let gravity: typeof VectorClass;
+    let drag: VectorClass;
+    let gravity: VectorClass;
 
     gravity = new VectorClass(0, 0.3)
     gravity.mult(item.mass); // allow us to get the same gravity force no matter the mass
@@ -70,7 +71,7 @@ function drawGello() {
     drawBalls(
         balls, 
         "red", 
-        (ball: typeof BallClass, color: string) => drawBall(ball, color));
+        (ball: BallClass, color: string) => drawBall(ball, color));
 
     drawFrameCounter(framesCounter, ctx, canvas);
     animationId = requestAnimationFrame(drawGello);

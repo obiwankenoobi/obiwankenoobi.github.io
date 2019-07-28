@@ -1,4 +1,8 @@
-class CountFramesClass {
+export class CountFramesClass {
+    public frames: number;
+    public lastSecondFrames: number;
+    public lastTime: number;
+    
     constructor() {
         this.frames = 1;
         this.lastSecondFrames = 0;
@@ -17,10 +21,3 @@ class CountFramesClass {
     reset() { this.frames = 1; }
 }
 
-interface CountFramesClass {
-    frames: number;
-    lastTime: number;
-    lastSecondFrames: number;
-}
-
-module.exports = CountFramesClass;

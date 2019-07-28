@@ -1,7 +1,11 @@
 export function randomNumber(min:number ,max: number) {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
-class VectorClass {
+export class VectorClass {
+
+    public x:number;
+    public y:number;
+
     constructor(x: number = 0, y: number = 0) {
         this.x = x;
         this.y = y;
@@ -78,9 +82,3 @@ class VectorClass {
     }
 }
 
-interface VectorClass {
-    x: number;
-    y: number
-}
-
-export { VectorClass };

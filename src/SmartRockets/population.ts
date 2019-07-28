@@ -1,8 +1,11 @@
-const { Rocket } = require("./rocket");
-const { VectorClass } = require("../vector");
+import { Rocket } from "./rocket";
+import { VectorClass } from "../vector";
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 
-class Population {
+export class Population {
+
+    private population: Array<Rocket>;
+    
     constructor(numOfPopulation: number, dnaLen: number) {
         this.population = [];
         for (let idx = 0; idx < numOfPopulation; idx++) {
@@ -11,7 +14,7 @@ class Population {
     }
 
     // pick a parent based on its score
-    pickOne(): typeof Rocket {
+    pickOne(): Rocket {
         let random = Math.random();
         let idx = 0;
         
@@ -25,7 +28,7 @@ class Population {
     }
 
 
-    evaluate(target: typeof VectorClass): void {
+    evaluate(target: VectorClass): void {
         let maxFitness = 0;
         this.population.forEach(citizen => {
             citizen.calcFitness(target);
@@ -42,7 +45,7 @@ class Population {
 
 
     evolve() {
-        const newPopulation: Array<typeof Rocket> = [];
+        const newPopulation: Array<Rocket> = [];
         
         for (let idx = 0; idx < this.population.length; idx++) {
             const parentA = this.pickOne();
@@ -59,9 +62,3 @@ class Population {
         
     }
 }
-
-interface Population {
-    population: Array<typeof Rocket>;
-}
-
-export { Population }

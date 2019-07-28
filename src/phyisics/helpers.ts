@@ -1,18 +1,18 @@
 
-const { BallClass,  BallConfig } = require("../ball");
-const { CountFramesClass } = require("../countFrames");
+import { BallClass, Config } from "../ball";
+import { CountFramesClass } from "../countFrames";
 
 export function randomNumber(min:number ,max: number) {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
 
-export function drawBalls(balls: Array<typeof BallClass>, color: string, cb: Function) {
+export function drawBalls(balls: Array<BallClass>, color: string, cb: Function) {
     for (const ball of balls) {
         cb(ball, color);
     }
 }
 
-export function drawFrameCounter(framesCounter: typeof CountFramesClass, ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
+export function drawFrameCounter(framesCounter:CountFramesClass, ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
     framesCounter.add();
     ctx.beginPath();
     ctx.font = "14px Arial";
@@ -22,11 +22,11 @@ export function drawFrameCounter(framesCounter: typeof CountFramesClass, ctx: Ca
 }
 
 export function createBalls(numOfBalls: number, canvas: HTMLCanvasElement) {
-    let balls: Array<typeof BallClass> = [];
-    let ball: typeof BallClass;
+    let balls: Array<BallClass> = [];
+    let ball: BallClass;
 
     for (let idx = 0; idx < numOfBalls; idx++) {
-        let ballConfig: typeof BallConfig;
+        let ballConfig: Config;
         ballConfig = {
             acc:      { x: 0, y: 0 },
             pos:      { x: (canvas.width / numOfBalls) / 2 + idx * (canvas.width / numOfBalls), y: 0},
@@ -40,7 +40,7 @@ export function createBalls(numOfBalls: number, canvas: HTMLCanvasElement) {
     return balls;
 }
 
-export function bounderyCheck(ball: typeof BallClass, canvas: HTMLCanvasElement) {
+export function bounderyCheck(ball: BallClass, canvas: HTMLCanvasElement) {
    
     if (ball.pos.x >= canvas.width) {
         ball.velocity.x *= -1;

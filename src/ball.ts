@@ -1,6 +1,6 @@
-const { VectorClass } = require("./vector");
+import { VectorClass } from "./vector";
 
-interface Config {
+export interface Config {
     acc:      { x: number, y:number },
     pos:      { x: number, y:number },
     velocity: { x: number, y:number },
@@ -14,7 +14,13 @@ const defaultConfig: Config = {
     mass: 1
 }
 
- class BallClass {
+ export class BallClass {
+     public acc: VectorClass;
+     public velocity: VectorClass;
+     public mass: number;
+     public pos: VectorClass;
+     public radius: number;
+     
     constructor(config: Config = defaultConfig) {
 
         this.acc      = new VectorClass(config.acc.x, config.acc.y);
@@ -34,7 +40,7 @@ const defaultConfig: Config = {
         this.velocity.max(num);
     }
 
-    applyForce(force: typeof VectorClass) {
+    applyForce(force: VectorClass) {
         // nyuton second law
         // accelaration = force / mass;
         const f = VectorClass.div(force, this.mass);
@@ -42,14 +48,6 @@ const defaultConfig: Config = {
     }
 }
 
-interface BallClass {
-    acc:      any;
-    velocity: any;
-    pos:      any;
-    radius:   number;
-    mass:     number;
-}
 
 
 
-export { BallClass, Config as BallConfig };

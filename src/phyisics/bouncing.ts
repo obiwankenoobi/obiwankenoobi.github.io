@@ -1,9 +1,12 @@
-const { VectorClass } = require("../vector")
-const CountFrames = require("../countFrames");
+import  { VectorClass } from "../vector"
+import  { CountFramesClass } from "../countFrames";
+import { BallClass } from "../ball";
+
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const { BallClass } = require("../ball");
 const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
+
+
 
 let balls: Array<typeof BallClass> = [];
 let animationId: number;
@@ -13,15 +16,15 @@ function setupBouncing() {
     balls = [];
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#000";
-    framesCounter = new CountFrames();
+    framesCounter = new CountFramesClass();
     balls = createBalls(5, canvas);
 }
 
-function drawBall(item: typeof BallClass, color: string) {
+function drawBall(item: BallClass, color: string) {
 
-    let drag: typeof VectorClass;
-    let gravity: typeof VectorClass;
-    let wind: typeof VectorClass;
+    let drag: VectorClass;
+    let gravity: VectorClass;
+    let wind: VectorClass;
 
     gravity = new VectorClass(0, 0.7);
     wind = new VectorClass(0, 0);
@@ -53,7 +56,7 @@ function drawBouncing() {
     drawBalls(
         balls, 
         "red", 
-        (ball: typeof BallClass, color: string) => drawBall(ball, color));
+        (ball: BallClass, color: string) => drawBall(ball, color));
 
     drawFrameCounter(framesCounter, ctx, canvas);
     animationId = requestAnimationFrame(drawBouncing);

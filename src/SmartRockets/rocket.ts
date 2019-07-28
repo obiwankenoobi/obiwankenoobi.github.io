@@ -1,27 +1,36 @@
-const { BallClass } = require("../ball");
-const { VectorClass } = require("../vector");
-const { DNA } = require("./dna");
+import { BallClass } from "../ball";
+import { VectorClass } from "../vector"
+import { DNA } from "./DNA";
+
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 
 
-class Rocket extends BallClass {
-    constructor(dnaLen: number, dna: Array <typeof VectorClass> = []) {
+export class Rocket extends BallClass {
+    
+    public dna: DNA;
+    public dnaLen:number;
+    public pos: VectorClass;
+    public fitness: number;
+    public complete: boolean;
+    public crashed: boolean;
+
+
+    constructor(dnaLen: number, dna: Array <VectorClass> = []) {
         super();
         this.dna = new DNA(dnaLen, dna);
         this.dnaLen = dnaLen;
         this.pos = new VectorClass(canvas.width / 2, canvas.height - 20);
         this.fitness = 0;
         this.complete = false;
-        this.crashed = false
+        this.crashed = false;
     }
 
-
-    bounderyCheck(target: typeof VectorClass) {
+    
+    bounderyCheck(target: VectorClass) {
    
         const distance = VectorClass.sub(this.pos, target);
         const distanceMagnitude = distance.mag();
         
-    
         if (this.pos.x >= canvas.width) {
             this.crashed = true;
         } else if (this.pos.x < 0) {
@@ -41,7 +50,7 @@ class Rocket extends BallClass {
     }
 
 
-    calcFitness(target: typeof VectorClass) {
+    calcFitness(target: VectorClass) {
         const distance = VectorClass.sub(this.pos, target);
         const magnitude = distance.mag();
         this.fitness = 1 / magnitude;
@@ -62,14 +71,3 @@ class Rocket extends BallClass {
     }
 
 }
-interface Rocket {
-    dna: typeof DNA;
-    dnaLen: number;
-    canvas: HTMLCanvasElement;
-    pos: typeof VectorClass;
-    fitness: number;
-    complete: boolean;
-    crashed: boolean;
-}
-
-export { Rocket }

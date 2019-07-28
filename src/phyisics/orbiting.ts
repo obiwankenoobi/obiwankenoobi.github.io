@@ -1,22 +1,23 @@
-const { VectorClass } = require("../vector")
-const CountFrames = require("../countFrames");
+import  { VectorClass } from "../vector"
+import  { CountFramesClass } from "../countFrames";
+import { BallClass, Config } from "../ball";
+
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const { BallClass,  BallConfig } = require("../ball");
 const { bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
 
 let animationId: number;
 
 let framesCounter: CountFramesClass;
 
-let gravity: typeof VectorClass;
+let gravity: VectorClass;
 gravity = new VectorClass();
 
-let attractor: typeof BallClass;
-let attractorConfig: typeof BallConfig;
+let attractor: BallClass;
+let attractorConfig: Config;
 
-let attracted: typeof BallClass;
-let attractedConfig: typeof BallConfig;
+let attracted: BallClass;
+let attractedConfig: Config;
 
 
 function setupOrbit() {
@@ -24,7 +25,7 @@ function setupOrbit() {
     canvas.style.backgroundColor = "#000";
 
 
-    framesCounter = new CountFrames();
+    framesCounter = new CountFramesClass();
 
     attractorConfig = {
         acc:      { x: 0, y: 0 },
@@ -48,7 +49,7 @@ function setupOrbit() {
 }
 
 
-function drawItem(item: typeof BallClass, color: string) {
+function drawItem(item: BallClass, color: string) {
     ctx.beginPath();
     ctx.fillStyle = color;
     ctx.arc(item.pos.x, item.pos.y, item.radius, 0, 2 * Math.PI);

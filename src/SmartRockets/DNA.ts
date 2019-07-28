@@ -1,9 +1,11 @@
-const { VectorClass } = require("../vector");
-const { Rocket } = require("./rocket");
+import  { VectorClass } from "../vector"
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 
-class DNA {
-    constructor(dnaLen: number, dna:Array<typeof VectorClass>) {
+export class DNA {
+
+    public genes: Array<VectorClass>;
+
+    constructor(dnaLen: number, dna:Array<VectorClass>) {
         this.genes = [];
         if (dna && dna.length) {
             this.genes = dna;
@@ -15,8 +17,8 @@ class DNA {
         }
     }
 
-    crossOver(partner: typeof Rocket): Array<typeof VectorClass> {
-        const newGenes: Array<typeof VectorClass> = []
+    crossOver(partner: DNA): Array<VectorClass> {
+        const newGenes: Array<VectorClass> = []
         const mid = Math.floor(Math.random() * this.genes.length);
 
         for (let idx = 0; idx < this.genes.length; idx++) {
@@ -31,8 +33,5 @@ class DNA {
     }
 }
 
-interface DNA {
-    genes:Array<typeof VectorClass>;
-}
 
-export { DNA };
+

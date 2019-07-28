@@ -1,8 +1,8 @@
-const { Rocket } = require("./rocket");
+import { Rocket } from "./rocket";
+import { CountFramesClass } from "../countFrames";
+import { VectorClass } from "../vector";
+
 const { Population } = require("./population");
-const { BallConfig } = require("../ball");
-const { VectorClass } = require("../vector");
-const CountFramesClass= require("../countFrames.ts");
 const { drawFrameCounter } = require("../phyisics/helpers");
 
 
@@ -37,7 +37,7 @@ function drawTarget() {
     ctx.closePath();
 }
  
-function drawRocket(rocket:typeof Rocket): void {
+function drawRocket(rocket:Rocket): void {
 
     ctx.beginPath();
     ctx.fillStyle = "red";
