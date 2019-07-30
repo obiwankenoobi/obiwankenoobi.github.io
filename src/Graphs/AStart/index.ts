@@ -26,12 +26,14 @@ function draw() {
         const current = maze.queue.poll();
         maze.walk((current));
     } else {
+        if (!maze.visited[maze.visited.length - 1].previous) return;
+        
         let path = [];
-        let current = maze.visited[maze.visited.length - 1];
+        let current = maze.visited[maze.visited.length - 1].previous;
 
         while(current.previous) {
             path.push(current);
-            maze.fill(current, "rgb(255, 100, 100");
+            maze.fill(current, "rgb(245, 139, 146");
             current = current.previous;
         }
         return console.log(path);

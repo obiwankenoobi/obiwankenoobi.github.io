@@ -85,8 +85,8 @@ export class Maze extends Grid {
 
     draw() {
         super.draw();
-        this.fill(this.start, "rgb(255, 0, 0)");
-        this.fill(this.finish, "rgb(255, 255, 0)");
+        this.fill(this.start, "rgb(192, 0, 0)");
+        this.fill(this.finish, "rgb(149, 213, 102)");
     }
 
 
