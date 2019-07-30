@@ -2,6 +2,8 @@ import { CountFramesClass } from "../countFrames";
 import { VectorClass } from "../vector";
 import { BallClass, Config } from "../ball"
 import { Vehicle } from "./vehicle";
+import { animations } from "../index";
+
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const foods = createObjects(50);
@@ -80,11 +82,13 @@ function draw() {
     vehicle.seek(poisons, "poison");
     vehicle.bounderies();
     vehicle.move();
-    requestAnimationFrame(draw);
+    const animationId = requestAnimationFrame(draw);
+    animations.add(animationId);
 }
 
 
 export function startAdvencedSteering() {
+    animations.clear(null);
     setup();
     draw();    
 }

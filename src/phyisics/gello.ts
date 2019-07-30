@@ -1,6 +1,7 @@
 import { VectorClass } from "../vector";
 import { BallClass } from "../ball";
 import { CountFramesClass } from "../countFrames";
+import { animations } from "../index";
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -75,12 +76,14 @@ function drawGello() {
 
     drawFrameCounter(framesCounter, ctx, canvas);
     animationId = requestAnimationFrame(drawGello);
+    animations.add(animationId);
 }
 
 
 
 
 export function startGello() {
+    animations.clear(null);
     setupGello();
     drawGello();
 }

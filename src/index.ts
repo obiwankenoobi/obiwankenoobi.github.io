@@ -1,3 +1,7 @@
+import { Animations } from "./animations"
+export const animations = new Animations();
+
+
 const { startBouncing } = require("./phyisics/bouncing");
 const { startOrbit } = require("./phyisics/orbiting");
 const { startGello } = require("./phyisics/gello");

@@ -1,7 +1,7 @@
 import { Rocket } from "./rocket";
 import { CountFramesClass } from "../countFrames";
 import { VectorClass } from "../vector";
-
+import { animations } from "../index";
 const { Population } = require("./population");
 const { drawFrameCounter } = require("../phyisics/helpers");
 
@@ -72,10 +72,12 @@ function draw(): void {
     drawTarget();
     framesCounter++;
     drawFrameCounter(framesPerMinute, ctx, canvas);
-    requestAnimationFrame(draw);
+    const animationId = requestAnimationFrame(draw);
+    animations.add(animationId)
 }
 
 export function startRocket(): void {
+    animations.clear(null);
     rocketSetup();
     draw();
 }

@@ -1,6 +1,7 @@
 import  { VectorClass } from "../vector"
 import  { CountFramesClass } from "../countFrames";
 import { BallClass } from "../ball";
+import { animations } from "../index";
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -60,10 +61,12 @@ function drawBouncing() {
 
     drawFrameCounter(framesCounter, ctx, canvas);
     animationId = requestAnimationFrame(drawBouncing);
+    animations.add(animationId);
 }
 
 
 export function startBouncing() {
+    animations.clear(null);
     setupBouncing();
     drawBouncing();
 }

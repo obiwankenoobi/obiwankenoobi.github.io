@@ -1,6 +1,7 @@
 import  { VectorClass } from "../vector"
 import  { CountFramesClass } from "../countFrames";
 import { BallClass, Config } from "../ball";
+import { animations } from "../index";
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -95,10 +96,12 @@ function drawOrbit() {
 
     drawFrameCounter(framesCounter, ctx, canvas);
     animationId = requestAnimationFrame(drawOrbit);
+    animations.add(animationId);
 }
 
 
 export function startOrbit() {
+    animations.clear(null);
     setupOrbit();
     drawOrbit();
 }

@@ -1,5 +1,6 @@
 import { Grid, Maze, RowColCoords } from "../grid"
 import { CountFramesClass } from "../../countFrames"
+import { animations } from "../../index";
 import PQueue from "fastpriorityqueue";
 const { drawFrameCounter } = require("../../phyisics/helpers");
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
@@ -36,12 +37,14 @@ function draw() {
         return console.log(path);
     }
     drawFrameCounter(frameCounter, ctx, canvas);
-    requestAnimationFrame(draw);
+    const animation = requestAnimationFrame(draw);
+    animations.add(animation);
 }
 
 
 
 export function startAStart() {
+    animations.clear(null);
     setup();
     draw();
 }
