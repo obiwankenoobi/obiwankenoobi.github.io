@@ -26,15 +26,14 @@ export class Grid {
         this.cols   = cols;
         this.canvas = canvas;
         this.ctx    = canvas.getContext("2d");
-        this.grid   = new Array(this.rows)
-                        .fill(null)
-                        .map(i => new Array(this.cols)
-                        .fill(null));
+        this.grid   = [];
         this.tileW  = this.canvas.width / this.rows;
         this.tileH  = this.canvas.height / this.cols;
 
-        for (let r = 0; r < this.grid.length; r++) {
-            for (let c = 0; c < this.grid[r].length; c++) {
+        for (let r = 0; r < this.rows; r++) {
+            for (let c = 0; c < this.cols; c++) {
+                if (!this.grid[r]) { this.grid[r] = [] }
+
                 const rndm = Math.random();
                 rndm < this.walls ? this.grid[r][c] = 1 : this.grid[r][c] = 0;
             }
@@ -44,8 +43,6 @@ export class Grid {
     fill(rowCol:RowColCoords, color:string) {
         this.ctx.fillStyle = color;
         this.ctx.fillRect(rowCol.row * this.tileW + 1, rowCol.col * this.tileH + 1, this.tileW - 1, this.tileH - 1);
-        //this.ctx.arc(rowCol.row * this.tileW + this.tileW / 2, rowCol.col * this.tileH + this.tileH / 2, this.tileW / 2, 0, Math.PI * 2);
-        //this.ctx.fill();
     }
 
     draw() {
@@ -100,10 +97,10 @@ export class Maze extends Grid {
     walk(rowCol:RowColCoords) {
         const directCost = (this.finish.row - rowCol.row) + (this.finish.col - rowCol.col);
 
-        let left  = { row: rowCol.row     , col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost:directCost};
-        let right = { row: rowCol.row     , col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost:directCost};
-        let up    = { row: rowCol.row - 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost:directCost};
-        let down  = { row: rowCol.row + 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost:directCost};
+        let left  = { row: rowCol.row     , col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
+        let right = { row: rowCol.row     , col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
+        let up    = { row: rowCol.row - 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
+        let down  = { row: rowCol.row + 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
 
         this.visited.push(rowCol);
         if (rowCol.row === this.finish.row && rowCol.col === this.finish.col) {
