@@ -18,6 +18,12 @@ export class VectorClass {
         return this;
     }
 
+    angle(vector: VectorClass) {
+        const mag = this.mag();
+        const vectorMag = vector.mag();
+        return Math.cos((this.x * vector.x + this.y * vector.y) / mag * vectorMag);
+    }
+
     sub(vector: VectorClass) {
         this.x -= vector.x;
         this.y -= vector.y;
@@ -69,6 +75,12 @@ export class VectorClass {
         if (Math.abs(this.y) > val) { 
             this.y = this.y < 0 ? -1 * val : val;
         }
+    }
+
+    dist(vector: VectorClass) {
+        const dist = VectorClass.sub(vector, this);
+        const distLen = dist.mag();
+        return distLen;
     }
 
     static randomVector(canvasWidth: number, canvasHight: number) {

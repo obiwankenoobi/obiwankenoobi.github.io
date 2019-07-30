@@ -15,10 +15,14 @@
 * Gravitational Attraction (simplified)  
   `GA = ((G * obj1.mass * obj2.mass) / distance^2) * direction`
 
+* Steering  
+  `Steering = (desire.direction * maxSpeed) - (direction * maxSteer)`
 
 ### Vectors
 * Magnitude  
   `Magnitude^2 = vector.x^2 + vector.y^2`
+
+
 
 <br>
 <br>
