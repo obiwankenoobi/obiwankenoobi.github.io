@@ -30,7 +30,7 @@
 
     formula (simplified):
     ```
-    Drag = -1 * constant * ||obj.velocity||^2 * direction
+    Drag = -1 * constant:number * ||obj.velocity:Vector||^2 * direction:Vector
     ``` 
 
 <br>
@@ -58,7 +58,7 @@
 
 ### Vectors
 * Magnitude  
-  `Magnitude^2 = vector.x^2 + vector.y^2`
+  `Magnitude^2 =Vector.x^2 +Vector.y^2`
 
 
 
