@@ -10,7 +10,7 @@ let maze:Maze;
 
 
 function setup() {
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     maze = new Maze(50, 50, canvas);
     maze.setStartFinish([0,0], [maze.rows - 1, maze.cols - 1]);
     maze.dfs(maze.start);

@@ -16,7 +16,7 @@ let framesCounter: CountFramesClass;
 function setupBouncing() {
     balls = [];
     cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     framesCounter = new CountFramesClass();
     balls = createBalls(5, canvas);
 }

@@ -23,7 +23,7 @@ let attractedConfig: Config;
 
 function setupOrbit() {
     cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
 
 
     framesCounter = new CountFramesClass();

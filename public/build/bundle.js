@@ -330,7 +330,7 @@ var ctx = canvas.getContext("2d");
 var frameCounter = new countFrames_1.CountFramesClass();
 var maze;
 function setup() {
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     maze = new grid_1.Maze(50, 50, canvas);
     maze.setStartFinish([0, 0], [maze.rows - 1, maze.cols - 1]);
     maze.walk((maze.start), "astar");
@@ -378,7 +378,7 @@ var frameCounter = new countFrames_1.CountFramesClass();
 var maze;
 var showQueue = false;
 function setup() {
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     maze = new grid_1.Maze(50, 50, canvas);
     maze.setStartFinish([0, 0], [maze.rows - 1, maze.cols - 1]);
     maze.walk((maze.start), "bfs");
@@ -425,7 +425,7 @@ var ctx = canvas.getContext("2d");
 var frameCounter = new countFrames_1.CountFramesClass();
 var maze;
 function setup() {
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     maze = new grid_1.Maze(50, 50, canvas);
     maze.setStartFinish([0, 0], [maze.rows - 1, maze.cols - 1]);
     maze.dfs(maze.start);
@@ -661,7 +661,7 @@ var rockets;
 function rocketSetup() {
     framesCounter = 0;
     rockets = new Population(100, lifeSpan, canvas);
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     framesPerMinute = new countFrames_1.CountFramesClass();
 }
 function drawTarget() {
@@ -965,7 +965,7 @@ var framesCounter;
 function setupBouncing() {
     balls = [];
     cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     framesCounter = new countFrames_1.CountFramesClass();
     balls = createBalls(5, canvas);
 }
@@ -1020,7 +1020,7 @@ var balls = [];
 function setupGello() {
     balls = []; // clearing balls
     cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     framesCounter = new countFrames_1.CountFramesClass();
     balls = createBalls(5, canvas);
 }
@@ -1091,7 +1091,7 @@ var attracted;
 var attractedConfig;
 function setupOrbit() {
     cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
+    canvas.style.backgroundColor = "#151513";
     framesCounter = new countFrames_1.CountFramesClass();
     attractorConfig = {
         acc: { x: 0, y: 0 },
