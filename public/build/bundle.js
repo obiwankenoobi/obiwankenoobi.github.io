@@ -321,10 +321,10 @@ module.exports = FastPriorityQueue;
 },{}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var grid_1 = require("../grid");
-var countFrames_1 = require("../../countFrames");
-var index_1 = require("../../index");
-var drawFrameCounter = require("../../phyisics/helpers").drawFrameCounter;
+var grid_1 = require("./grid");
+var countFrames_1 = require("../countFrames");
+var index_1 = require("../index");
+var drawFrameCounter = require("../phyisics/helpers").drawFrameCounter;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var frameCounter = new countFrames_1.CountFramesClass();
@@ -334,14 +334,14 @@ function setup() {
     canvas.style.backgroundColor = "#000";
     maze = new grid_1.Maze(50, 50, canvas);
     maze.setStartFinish([0, 0], [maze.rows - 1, maze.cols - 1]);
-    maze.walk((maze.start));
+    maze.walk((maze.start), "astar");
 }
 function draw() {
     ctx.clearRect(0, canvas.height - 25, 75, 25);
     maze.draw();
     if (!maze.queue.isEmpty() && !maze.done) {
         var current = maze.queue.poll();
-        maze.walk((current));
+        maze.walk((current), "astar");
     }
     else {
         if (!maze.visited[maze.visited.length - 1].previous)
@@ -366,7 +366,55 @@ function startAStart() {
 }
 exports.startAStart = startAStart;
 
-},{"../../countFrames":12,"../../index":13,"../../phyisics/helpers":16,"../grid":3}],3:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"./grid":4}],3:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var grid_1 = require("./grid");
+var countFrames_1 = require("../countFrames");
+var index_1 = require("../index");
+var drawFrameCounter = require("../phyisics/helpers").drawFrameCounter;
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var frameCounter = new countFrames_1.CountFramesClass();
+var maze;
+var showQueue = false;
+function setup() {
+    canvas.style.backgroundColor = "#000";
+    maze = new grid_1.Maze(50, 50, canvas);
+    maze.setStartFinish([0, 0], [maze.rows - 1, maze.cols - 1]);
+    maze.walk((maze.start), "bfs");
+}
+function draw() {
+    ctx.clearRect(0, canvas.height - 25, 75, 25);
+    maze.draw();
+    if (!maze.queue.isEmpty() && !maze.done) {
+        var current = maze.queue.poll();
+        maze.walk((current), "bfs");
+    }
+    else {
+        if (!maze.visited[maze.visited.length - 1].previous)
+            return;
+        var path = [];
+        var current = maze.visited[maze.visited.length - 1].previous;
+        while (current.previous) {
+            path.push(current);
+            maze.fill(current, "rgb(245, 139, 146");
+            current = current.previous;
+        }
+        return console.log(path);
+    }
+    drawFrameCounter(frameCounter, ctx, canvas);
+    var animation = requestAnimationFrame(draw);
+    index_1.animations.add(animation);
+}
+function startBFS() {
+    index_1.animations.clear(null);
+    setup();
+    draw();
+}
+exports.startBFS = startBFS;
+
+},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"./grid":4}],4:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -449,42 +497,41 @@ var Maze = /** @class */ (function (_super) {
     Maze.prototype.isInQueue = function (rowCol) {
         return this.inQueue[rowCol.row + "-" + rowCol.col];
     };
-    Maze.prototype.walk = function (rowCol) {
+    Maze.prototype.isAStar = function (str) {
+        return str === "astar";
+    };
+    Maze.prototype.walk = function (rowCol, algorithn) {
         var directCost = (this.finish.row - rowCol.row) + (this.finish.col - rowCol.col);
-        var left = { row: rowCol.row, col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost };
-        var right = { row: rowCol.row, col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost };
-        var up = { row: rowCol.row - 1, col: rowCol.col, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost };
-        var down = { row: rowCol.row + 1, col: rowCol.col, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost };
+        var calculatedDirectCost = this.isAStar(algorithn) ? directCost : 0; // only calc path cost is algo is astar
+        var left = { row: rowCol.row, col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
+        var right = { row: rowCol.row, col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
+        var up = { row: rowCol.row - 1, col: rowCol.col, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
+        var down = { row: rowCol.row + 1, col: rowCol.col, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
         this.visited.push(rowCol);
         if (rowCol.row === this.finish.row && rowCol.col === this.finish.col) {
             this.done = true;
             return console.log("done");
         }
-        if (this.visited.length) {
-            var path = [];
-            var current = this.visited[this.visited.length - 1];
-            while (current.previous) {
-                path.push(current);
-                this.fill(current, "rgb(191, 239, 255");
-                current = current.previous;
-            }
-            this.fill(rowCol, "rgb(114, 143, 153");
-        }
+        this.fill(rowCol, "rgb(114, 143, 153");
         if (!this.isInQueue(down) && rowCol.row + 1 < this.rows && this.grid[down.row][down.col] !== 1) {
             this.queue.add(down);
             this.inQueue[rowCol.row + 1 + "-" + rowCol.col] = true;
+            this.fill(down, "rgb(191, 239, 255");
         }
         if (!this.isInQueue(up) && rowCol.row - 1 >= 0 && this.grid[up.row][up.col] !== 1) {
             this.queue.add(up);
             this.inQueue[rowCol.row - 1 + "-" + rowCol.col] = true;
+            this.fill(up, "rgb(191, 239, 255");
         }
         if (!this.isInQueue(left) && rowCol.col + 1 < this.cols && this.grid[left.row][left.col] !== 1) {
             this.queue.add(left);
             this.inQueue[rowCol.row + "-" + (rowCol.col + 1)] = true;
+            this.fill(left, "rgb(191, 239, 255");
         }
         if (!this.isInQueue(right) && rowCol.col - 1 >= 0 && this.grid[right.row][right.col] !== 1) {
             this.queue.add(right);
             this.inQueue[rowCol.row + "-" + (rowCol.col - 1)] = true;
+            this.fill(right, "rgb(191, 239, 255");
         }
         if (rowCol === this.start) {
             this.inQueue[rowCol.row + "-" + rowCol.col] = true;
@@ -494,7 +541,7 @@ var Maze = /** @class */ (function (_super) {
 }(Grid));
 exports.Maze = Maze;
 
-},{"fastpriorityqueue":1}],4:[function(require,module,exports){
+},{"fastpriorityqueue":1}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -529,7 +576,7 @@ var DNA = /** @class */ (function () {
 }());
 exports.DNA = DNA;
 
-},{"../vector":18}],5:[function(require,module,exports){
+},{"../vector":19}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
@@ -597,7 +644,7 @@ function startRocket() {
 }
 exports.startRocket = startRocket;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":16,"../vector":18,"./population":6}],6:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19,"./population":7}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rocket_1 = require("./rocket");
@@ -649,7 +696,7 @@ var Population = /** @class */ (function () {
 }());
 exports.Population = Population;
 
-},{"./rocket":7}],7:[function(require,module,exports){
+},{"./rocket":8}],8:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -722,7 +769,7 @@ var Rocket = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Rocket = Rocket;
 
-},{"../ball":11,"../vector":18,"./DNA":4}],8:[function(require,module,exports){
+},{"../ball":12,"../vector":19,"./DNA":5}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
@@ -799,7 +846,7 @@ function startAdvencedSteering() {
 }
 exports.startAdvencedSteering = startAdvencedSteering;
 
-},{"../ball":11,"../index":13,"./vehicle":9}],9:[function(require,module,exports){
+},{"../ball":12,"../index":14,"./vehicle":10}],10:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -907,7 +954,7 @@ var Vehicle = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Vehicle = Vehicle;
 
-},{"../ball":11,"../vector":18}],10:[function(require,module,exports){
+},{"../ball":12,"../vector":19}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas = document.getElementById("canvas");
@@ -929,7 +976,7 @@ var Animations = /** @class */ (function () {
 }());
 exports.Animations = Animations;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("./vector");
@@ -966,7 +1013,7 @@ var BallClass = /** @class */ (function () {
 }());
 exports.BallClass = BallClass;
 
-},{"./vector":18}],12:[function(require,module,exports){
+},{"./vector":19}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CountFramesClass = /** @class */ (function () {
@@ -991,7 +1038,7 @@ var CountFramesClass = /** @class */ (function () {
 }());
 exports.CountFramesClass = CountFramesClass;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
@@ -1001,21 +1048,24 @@ var startOrbit = require("./phyisics/orbiting").startOrbit;
 var startGello = require("./phyisics/gello").startGello;
 var startRocket = require("./SmartRockets/index").startRocket;
 var startAdvencedSteering = require("./Steering/index").startAdvencedSteering;
-var startAStart = require("./Graphs/AStart").startAStart;
+var startAStart = require("./Graphs/astar").startAStart;
+var startBFS = require("./Graphs/bfs").startBFS;
 var bouncingBtn = document.querySelector("#bouncing-btn");
 var orbitingBtn = document.querySelector("#orbiting-btn");
 var gelloBtn = document.querySelector("#gello-btn");
 var rocketBtn = document.querySelector("#rocket-btn");
 var steeringAdvencedBtn = document.querySelector("#steering-advenced-btn");
 var AStarBtn = document.querySelector("#a-star-btn");
+var bfsBtn = document.querySelector("#bfs-btn");
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
 gelloBtn.addEventListener("click", startGello);
 rocketBtn.addEventListener("click", startRocket);
 steeringAdvencedBtn.addEventListener("click", startAdvencedSteering);
 AStarBtn.addEventListener("click", startAStart);
+bfsBtn.addEventListener("click", startBFS);
 
-},{"./Graphs/AStart":2,"./SmartRockets/index":5,"./Steering/index":8,"./animations":10,"./phyisics/bouncing":14,"./phyisics/gello":15,"./phyisics/orbiting":17}],14:[function(require,module,exports){
+},{"./Graphs/astar":2,"./Graphs/bfs":3,"./SmartRockets/index":6,"./Steering/index":9,"./animations":11,"./phyisics/bouncing":15,"./phyisics/gello":16,"./phyisics/orbiting":18}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1067,10 +1117,10 @@ function startBouncing() {
     index_1.animations.clear(null);
     setupBouncing();
     drawBouncing();
-} //
+}
 exports.startBouncing = startBouncing;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":16,"../vector":18}],15:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1136,7 +1186,7 @@ function startGello() {
 }
 exports.startGello = startGello;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":16,"../vector":18}],16:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
@@ -1197,7 +1247,7 @@ function bounderyCheck(ball, canvas) {
 }
 exports.bounderyCheck = bounderyCheck;
 
-},{"../ball":11}],17:[function(require,module,exports){
+},{"../ball":12}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1275,7 +1325,7 @@ function startOrbit() {
 }
 exports.startOrbit = startOrbit;
 
-},{"../ball":11,"../countFrames":12,"../index":13,"../phyisics/helpers":16,"../vector":18}],18:[function(require,module,exports){
+},{"../ball":12,"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function randomNumber(min, max) {
@@ -1358,4 +1408,4 @@ var VectorClass = /** @class */ (function () {
 }());
 exports.VectorClass = VectorClass;
 
-},{}]},{},[13]);
+},{}]},{},[14]);

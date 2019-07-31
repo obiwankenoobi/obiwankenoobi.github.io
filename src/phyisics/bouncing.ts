@@ -69,6 +69,6 @@ export function startBouncing() {
     animations.clear(null);
     setupBouncing();
     drawBouncing();
-}//
+}
 
 

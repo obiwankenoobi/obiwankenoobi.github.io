@@ -1,8 +1,8 @@
-import { Grid, Maze, RowColCoords } from "../grid"
-import { CountFramesClass } from "../../countFrames"
-import { animations } from "../../index";
+import { Grid, Maze, RowColCoords } from "./grid"
+import { CountFramesClass } from "../countFrames"
+import { animations } from "../index";
 import PQueue from "fastpriorityqueue";
-const { drawFrameCounter } = require("../../phyisics/helpers");
+const { drawFrameCounter } = require("../phyisics/helpers");
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const frameCounter = new CountFramesClass();
@@ -14,7 +14,7 @@ function setup() {
     canvas.style.backgroundColor = "#000";
     maze = new Maze(50, 50, canvas);
     maze.setStartFinish([0,0], [maze.rows - 1, maze.cols - 1]);
-    maze.walk((maze.start));
+    maze.walk((maze.start), "bfs");
 }
 
 
@@ -24,7 +24,7 @@ function draw() {
     maze.draw();
     if (!maze.queue.isEmpty() && !maze.done) {
         const current = maze.queue.poll();
-        maze.walk((current));
+        maze.walk((current), "bfs");
     } else {
         if (!maze.visited[maze.visited.length - 1].previous) return;
         
@@ -45,7 +45,7 @@ function draw() {
 
 
 
-export function startAStart() {
+export function startBFS() {
     animations.clear(null);
     setup();
     draw();

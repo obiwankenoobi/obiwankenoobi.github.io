@@ -94,13 +94,18 @@ export class Maze extends Grid {
         return this.inQueue[`${rowCol.row}-${rowCol.col}`]
     }
 
-    walk(rowCol:RowColCoords) {
-        const directCost = (this.finish.row - rowCol.row) + (this.finish.col - rowCol.col);
+    isAStar(str:string) {
+        return str === "astar";
+    }
 
-        let left  = { row: rowCol.row     , col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
-        let right = { row: rowCol.row     , col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
-        let up    = { row: rowCol.row - 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
-        let down  = { row: rowCol.row + 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: directCost};
+    walk(rowCol:RowColCoords, algorithn:string) {
+        const directCost = (this.finish.row - rowCol.row) + (this.finish.col - rowCol.col);
+        const calculatedDirectCost = this.isAStar(algorithn) ? directCost : 0; // only calc path cost is algo is astar
+
+        let left  = { row: rowCol.row     , col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
+        let right = { row: rowCol.row     , col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
+        let up    = { row: rowCol.row - 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
+        let down  = { row: rowCol.row + 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
 
         this.visited.push(rowCol);
         if (rowCol.row === this.finish.row && rowCol.col === this.finish.col) {
@@ -108,40 +113,36 @@ export class Maze extends Grid {
             return console.log("done");
         }
 
-        if (this.visited.length) {
-            let path = [];
-            let current = this.visited[this.visited.length - 1];
-            while(current.previous) {
-                path.push(current);
-                this.fill(current, "rgb(191, 239, 255");
-                current = current.previous;
-            }
-            this.fill(rowCol, "rgb(114, 143, 153");
-        }
 
+        this.fill(rowCol, "rgb(114, 143, 153");
+        
 
         
         if (!this.isInQueue(down) && rowCol.row + 1 < this.rows && this.grid[down.row][down.col] !== 1) {
             this.queue.add(down)
             this.inQueue[`${rowCol.row + 1}-${rowCol.col}`] = true;
+            this.fill(down, "rgb(191, 239, 255");
         }
 
         
         if (!this.isInQueue(up) && rowCol.row - 1 >= 0 && this.grid[up.row][up.col] !== 1) {
             this.queue.add(up)
             this.inQueue[`${rowCol.row - 1}-${rowCol.col}`] = true;
+            this.fill(up, "rgb(191, 239, 255");
         }
 
         
         if (!this.isInQueue(left) && rowCol.col + 1 < this.cols && this.grid[left.row][left.col] !== 1) {
             this.queue.add(left)
             this.inQueue[`${rowCol.row}-${rowCol.col + 1}`] = true;
+            this.fill(left, "rgb(191, 239, 255");
         }
 
         
         if (!this.isInQueue(right) && rowCol.col - 1 >= 0 && this.grid[right.row][right.col] !== 1) {
             this.queue.add(right)
             this.inQueue[`${rowCol.row}-${rowCol.col - 1}`] = true;
+            this.fill(right, "rgb(191, 239, 255");
         }
 
         if (rowCol === this.start) {
