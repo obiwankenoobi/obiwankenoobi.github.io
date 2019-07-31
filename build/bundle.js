@@ -587,9 +587,8 @@ var Maze = /** @class */ (function (_super) {
         this.fill(rowCol, "rgb(114, 143, 153");
         // traversing th naighbors
         this.checkNeighbors(rowCol, this.addToQueue.bind(this), calculatedDirectCost);
-        if (rowCol === this.start) {
+        if (rowCol === this.start)
             this.inQueue[rowCol.row + "-" + rowCol.col] = true;
-        }
     };
     Maze.prototype.dfs = function (rowCol) {
         this.visited.push(rowCol);
@@ -600,9 +599,8 @@ var Maze = /** @class */ (function (_super) {
         this.fill(rowCol, "rgb(114, 143, 153");
         // traversing th naighbors
         this.checkNeighbors(rowCol, this.addToStack.bind(this), null);
-        if (rowCol === this.start) {
+        if (rowCol === this.start)
             this.inQueue[rowCol.row + "-" + rowCol.col] = true;
-        }
     };
     return Maze;
 }(Grid));
@@ -925,15 +923,6 @@ exports.CountFramesClass = CountFramesClass;
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
 exports.animations = new animations_1.Animations();
-// const canvas = <HTMLCanvasElement> document.getElementById("canvas");
-// const dpi = window.devicePixelRatio;
-// function fixDpi() {
-//     const styleHeight = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-//     const styleWidth = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-//     canvas.setAttribute('height', (styleHeight * dpi).toString());
-//     canvas.setAttribute('width', (styleWidth * dpi).toString());
-// }
-// fixDpi()
 var startBouncing = require("./phyisics/drag").startBouncing;
 var startOrbit = require("./phyisics/ga").startOrbit;
 var startGello = require("./phyisics/friction").startGello;
