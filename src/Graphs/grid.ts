@@ -42,7 +42,7 @@ export class Grid {
 
     fill(rowCol:RowColCoords, color:string) {
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(rowCol.row * this.tileW + 1, rowCol.col * this.tileH + 1, this.tileW - 1, this.tileH - 1);
+        this.ctx.fillRect(rowCol.row * this.tileW, rowCol.col * this.tileH, this.tileW, this.tileH);
     }
 
     draw() {
@@ -51,7 +51,7 @@ export class Grid {
                 this.ctx.strokeStyle = "#666";
                 if (this.grid[r][c] === 1) {
                     const rowCol:RowColCoords = {row:r, col:c, weight:0, previous:null, directCost: 0} 
-                    this.fill(rowCol, "#fff");
+                    this.fill(rowCol, "#666");
                 } 
             }            
         }
