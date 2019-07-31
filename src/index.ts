@@ -1,17 +1,18 @@
 import { Animations } from "./animations"
 export const animations = new Animations();
-const canvas = <HTMLCanvasElement> document.getElementById("canvas");
-const dpi = window.devicePixelRatio;
+// const canvas = <HTMLCanvasElement> document.getElementById("canvas");
+// const dpi = window.devicePixelRatio;
 
 
-function fixDpi() {
-    const styleHeight = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-    const styleWidth = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-    canvas.setAttribute('height', (styleHeight * dpi).toString());
-    canvas.setAttribute('width', (styleWidth * dpi).toString());
-}
 
-fixDpi()
+// function fixDpi() {
+//     const styleHeight = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+//     const styleWidth = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+//     canvas.setAttribute('height', (styleHeight * dpi).toString());
+//     canvas.setAttribute('width', (styleWidth * dpi).toString());
+// }
+
+// fixDpi()
 
 const { startBouncing } = require("./phyisics/drag");
 const { startOrbit } = require("./phyisics/ga");

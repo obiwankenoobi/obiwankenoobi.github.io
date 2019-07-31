@@ -925,15 +925,15 @@ exports.CountFramesClass = CountFramesClass;
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
 exports.animations = new animations_1.Animations();
-var canvas = document.getElementById("canvas");
-var dpi = window.devicePixelRatio;
-function fixDpi() {
-    var styleHeight = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-    var styleWidth = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-    canvas.setAttribute('height', (styleHeight * dpi).toString());
-    canvas.setAttribute('width', (styleWidth * dpi).toString());
-}
-fixDpi();
+// const canvas = <HTMLCanvasElement> document.getElementById("canvas");
+// const dpi = window.devicePixelRatio;
+// function fixDpi() {
+//     const styleHeight = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+//     const styleWidth = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+//     canvas.setAttribute('height', (styleHeight * dpi).toString());
+//     canvas.setAttribute('width', (styleWidth * dpi).toString());
+// }
+// fixDpi()
 var startBouncing = require("./phyisics/drag").startBouncing;
 var startOrbit = require("./phyisics/ga").startOrbit;
 var startGello = require("./phyisics/friction").startGello;
