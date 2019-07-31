@@ -112,7 +112,7 @@ export class Maze extends Grid {
             this.done = true;
             return console.log("done");
         }
-
+//
 
         this.fill(rowCol, "rgb(114, 143, 153");
         
