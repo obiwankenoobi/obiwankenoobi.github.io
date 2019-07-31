@@ -329,7 +329,6 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var frameCounter = new countFrames_1.CountFramesClass();
 var maze;
-var showQueue = false;
 function setup() {
     canvas.style.backgroundColor = "#000";
     maze = new grid_1.Maze(50, 50, canvas);
@@ -341,7 +340,7 @@ function draw() {
     maze.draw();
     if (!maze.queue.isEmpty() && !maze.done) {
         var current = maze.queue.poll();
-        maze.walk((current), "astar");
+        maze.walk(current, "astar");
     }
     else {
         if (!maze.visited[maze.visited.length - 1].previous)
@@ -366,7 +365,7 @@ function startAStart() {
 }
 exports.startAStart = startAStart;
 
-},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"./grid":4}],3:[function(require,module,exports){
+},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"./grid":5}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -389,7 +388,7 @@ function draw() {
     maze.draw();
     if (!maze.queue.isEmpty() && !maze.done) {
         var current = maze.queue.poll();
-        maze.walk((current), "bfs");
+        maze.walk(current, "bfs");
     }
     else {
         if (!maze.visited[maze.visited.length - 1].previous)
@@ -414,7 +413,54 @@ function startBFS() {
 }
 exports.startBFS = startBFS;
 
-},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"./grid":4}],4:[function(require,module,exports){
+},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"./grid":5}],4:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var grid_1 = require("./grid");
+var countFrames_1 = require("../countFrames");
+var index_1 = require("../index");
+var drawFrameCounter = require("../phyisics/helpers").drawFrameCounter;
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var frameCounter = new countFrames_1.CountFramesClass();
+var maze;
+function setup() {
+    canvas.style.backgroundColor = "#000";
+    maze = new grid_1.Maze(50, 50, canvas);
+    maze.setStartFinish([0, 0], [maze.rows - 1, maze.cols - 1]);
+    maze.dfs(maze.start);
+}
+function draw() {
+    ctx.clearRect(0, canvas.height - 25, 75, 25);
+    maze.draw();
+    if (maze.stack.length && !maze.done) {
+        var current = maze.stack.shift();
+        maze.dfs(current);
+    }
+    else {
+        if (!maze.visited[maze.visited.length - 1].previous)
+            return;
+        var path = [];
+        var current = maze.visited[maze.visited.length - 1].previous;
+        while (current.previous) {
+            path.push(current);
+            maze.fill(current, "rgb(245, 139, 146");
+            current = current.previous;
+        }
+        return console.log(path);
+    }
+    drawFrameCounter(frameCounter, ctx, canvas);
+    var animation = requestAnimationFrame(draw);
+    index_1.animations.add(animation);
+}
+function startDFS() {
+    index_1.animations.clear(null);
+    setup();
+    draw();
+}
+exports.startDFS = startDFS;
+
+},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"./grid":5}],5:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -478,6 +524,7 @@ var Maze = /** @class */ (function (_super) {
         var _this = _super.call(this, rows, cols, canvas) || this;
         _this.visited = [];
         _this.inQueue = {};
+        _this.stack = [];
         _this.done = false;
         _this.queue = new fastpriorityqueue_1.default(function (a, b) { return a.weight + a.directCost < b.weight + b.directCost; });
         return _this;
@@ -500,40 +547,62 @@ var Maze = /** @class */ (function (_super) {
     Maze.prototype.isAStar = function (str) {
         return str === "astar";
     };
+    Maze.prototype.checkNeighbors = function (rowCol, cb, calculatedDirectCost) {
+        for (var r = rowCol.row - 1; r <= rowCol.row + 1; r++) {
+            for (var c = rowCol.col - 1; c <= rowCol.col + 1; c++) {
+                if (!(r !== rowCol.row && c !== rowCol.col)) {
+                    var current = {
+                        row: r, col: c,
+                        weight: rowCol.weight + 1,
+                        previous: rowCol,
+                        directCost: calculatedDirectCost ? calculatedDirectCost : 0
+                    };
+                    if (this.grid[r] &&
+                        this.grid[r][c] === 0 &&
+                        !this.isInQueue(current)) {
+                        console.log("calling cb", cb);
+                        cb(r, c, current);
+                    }
+                }
+            }
+        }
+    };
+    Maze.prototype.addToQueue = function (r, c, current) {
+        console.log("adding to queue");
+        this.queue.add(current);
+        this.inQueue[r + "-" + c] = true;
+        this.fill(current, "rgb(191, 239, 255");
+    };
+    Maze.prototype.addToStack = function (r, c, current) {
+        console.log("adding to stack");
+        this.stack.unshift(current);
+        this.inQueue[r + "-" + c] = true;
+        this.fill(current, "rgb(191, 239, 255");
+    };
     Maze.prototype.walk = function (rowCol, algorithn) {
         var directCost = (this.finish.row - rowCol.row) + (this.finish.col - rowCol.col);
         var calculatedDirectCost = this.isAStar(algorithn) ? directCost : 0; // only calc path cost is algo is astar
-        var left = { row: rowCol.row, col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
-        var right = { row: rowCol.row, col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
-        var up = { row: rowCol.row - 1, col: rowCol.col, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
-        var down = { row: rowCol.row + 1, col: rowCol.col, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost };
         this.visited.push(rowCol);
         if (rowCol.row === this.finish.row && rowCol.col === this.finish.col) {
             this.done = true;
             return console.log("done");
         }
-        //
         this.fill(rowCol, "rgb(114, 143, 153");
-        if (!this.isInQueue(down) && rowCol.row + 1 < this.rows && this.grid[down.row][down.col] !== 1) {
-            this.queue.add(down);
-            this.inQueue[rowCol.row + 1 + "-" + rowCol.col] = true;
-            this.fill(down, "rgb(191, 239, 255");
+        // traversing th naighbors
+        this.checkNeighbors(rowCol, this.addToQueue.bind(this), calculatedDirectCost);
+        if (rowCol === this.start) {
+            this.inQueue[rowCol.row + "-" + rowCol.col] = true;
         }
-        if (!this.isInQueue(up) && rowCol.row - 1 >= 0 && this.grid[up.row][up.col] !== 1) {
-            this.queue.add(up);
-            this.inQueue[rowCol.row - 1 + "-" + rowCol.col] = true;
-            this.fill(up, "rgb(191, 239, 255");
+    };
+    Maze.prototype.dfs = function (rowCol) {
+        this.visited.push(rowCol);
+        if (rowCol.row === this.finish.row && rowCol.col === this.finish.col) {
+            this.done = true;
+            return console.log("done");
         }
-        if (!this.isInQueue(left) && rowCol.col + 1 < this.cols && this.grid[left.row][left.col] !== 1) {
-            this.queue.add(left);
-            this.inQueue[rowCol.row + "-" + (rowCol.col + 1)] = true;
-            this.fill(left, "rgb(191, 239, 255");
-        }
-        if (!this.isInQueue(right) && rowCol.col - 1 >= 0 && this.grid[right.row][right.col] !== 1) {
-            this.queue.add(right);
-            this.inQueue[rowCol.row + "-" + (rowCol.col - 1)] = true;
-            this.fill(right, "rgb(191, 239, 255");
-        }
+        this.fill(rowCol, "rgb(114, 143, 153");
+        // traversing th naighbors
+        this.checkNeighbors(rowCol, this.addToStack.bind(this), null);
         if (rowCol === this.start) {
             this.inQueue[rowCol.row + "-" + rowCol.col] = true;
         }
@@ -542,7 +611,7 @@ var Maze = /** @class */ (function (_super) {
 }(Grid));
 exports.Maze = Maze;
 
-},{"fastpriorityqueue":1}],5:[function(require,module,exports){
+},{"fastpriorityqueue":1}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -577,7 +646,7 @@ var DNA = /** @class */ (function () {
 }());
 exports.DNA = DNA;
 
-},{"../vector":19}],6:[function(require,module,exports){
+},{"../vector":20}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
@@ -645,7 +714,7 @@ function startRocket() {
 }
 exports.startRocket = startRocket;
 
-},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19,"./population":7}],7:[function(require,module,exports){
+},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20,"./population":8}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rocket_1 = require("./rocket");
@@ -697,7 +766,7 @@ var Population = /** @class */ (function () {
 }());
 exports.Population = Population;
 
-},{"./rocket":8}],8:[function(require,module,exports){
+},{"./rocket":9}],9:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -770,7 +839,7 @@ var Rocket = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Rocket = Rocket;
 
-},{"../ball":12,"../vector":19,"./DNA":5}],9:[function(require,module,exports){
+},{"../ball":13,"../vector":20,"./DNA":6}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
@@ -847,7 +916,7 @@ function startAdvencedSteering() {
 }
 exports.startAdvencedSteering = startAdvencedSteering;
 
-},{"../ball":12,"../index":14,"./vehicle":10}],10:[function(require,module,exports){
+},{"../ball":13,"../index":15,"./vehicle":11}],11:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -955,7 +1024,7 @@ var Vehicle = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Vehicle = Vehicle;
 
-},{"../ball":12,"../vector":19}],11:[function(require,module,exports){
+},{"../ball":13,"../vector":20}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas = document.getElementById("canvas");
@@ -977,7 +1046,7 @@ var Animations = /** @class */ (function () {
 }());
 exports.Animations = Animations;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("./vector");
@@ -1014,7 +1083,7 @@ var BallClass = /** @class */ (function () {
 }());
 exports.BallClass = BallClass;
 
-},{"./vector":19}],13:[function(require,module,exports){
+},{"./vector":20}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var CountFramesClass = /** @class */ (function () {
@@ -1039,7 +1108,7 @@ var CountFramesClass = /** @class */ (function () {
 }());
 exports.CountFramesClass = CountFramesClass;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
@@ -1051,6 +1120,7 @@ var startRocket = require("./SmartRockets/index").startRocket;
 var startAdvencedSteering = require("./Steering/index").startAdvencedSteering;
 var startAStart = require("./Graphs/astar").startAStart;
 var startBFS = require("./Graphs/bfs").startBFS;
+var startDFS = require("./Graphs/dfs").startDFS;
 var bouncingBtn = document.querySelector("#bouncing-btn");
 var orbitingBtn = document.querySelector("#orbiting-btn");
 var gelloBtn = document.querySelector("#gello-btn");
@@ -1058,6 +1128,7 @@ var rocketBtn = document.querySelector("#rocket-btn");
 var steeringAdvencedBtn = document.querySelector("#steering-advenced-btn");
 var AStarBtn = document.querySelector("#a-star-btn");
 var bfsBtn = document.querySelector("#bfs-btn");
+var dfsBtn = document.querySelector("#dfs-btn");
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
 gelloBtn.addEventListener("click", startGello);
@@ -1065,8 +1136,9 @@ rocketBtn.addEventListener("click", startRocket);
 steeringAdvencedBtn.addEventListener("click", startAdvencedSteering);
 AStarBtn.addEventListener("click", startAStart);
 bfsBtn.addEventListener("click", startBFS);
+dfsBtn.addEventListener("click", startDFS);
 
-},{"./Graphs/astar":2,"./Graphs/bfs":3,"./SmartRockets/index":6,"./Steering/index":9,"./animations":11,"./phyisics/bouncing":15,"./phyisics/gello":16,"./phyisics/orbiting":18}],15:[function(require,module,exports){
+},{"./Graphs/astar":2,"./Graphs/bfs":3,"./Graphs/dfs":4,"./SmartRockets/index":7,"./Steering/index":10,"./animations":12,"./phyisics/bouncing":16,"./phyisics/gello":17,"./phyisics/orbiting":19}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1121,7 +1193,7 @@ function startBouncing() {
 }
 exports.startBouncing = startBouncing;
 
-},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19}],16:[function(require,module,exports){
+},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1187,7 +1259,7 @@ function startGello() {
 }
 exports.startGello = startGello;
 
-},{"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19}],17:[function(require,module,exports){
+},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
@@ -1248,7 +1320,7 @@ function bounderyCheck(ball, canvas) {
 }
 exports.bounderyCheck = bounderyCheck;
 
-},{"../ball":12}],18:[function(require,module,exports){
+},{"../ball":13}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1326,7 +1398,7 @@ function startOrbit() {
 }
 exports.startOrbit = startOrbit;
 
-},{"../ball":12,"../countFrames":13,"../index":14,"../phyisics/helpers":17,"../vector":19}],19:[function(require,module,exports){
+},{"../ball":13,"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20}],20:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function randomNumber(min, max) {
@@ -1409,4 +1481,4 @@ var VectorClass = /** @class */ (function () {
 }());
 exports.VectorClass = VectorClass;
 
-},{}]},{},[14]);
+},{}]},{},[15]);

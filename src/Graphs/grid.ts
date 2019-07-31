@@ -66,6 +66,7 @@ export class Maze extends Grid {
     public queue:PQueue<any>;
     public visited:Array<RowColCoords> = [];
     public inQueue:any = {};
+    public stack: Array<RowColCoords> = [];
     public done:boolean = false;
 
     constructor(rows:number, cols:number, canvas:HTMLCanvasElement) {
@@ -98,56 +99,82 @@ export class Maze extends Grid {
         return str === "astar";
     }
 
+    checkNeighbors(rowCol:RowColCoords, cb:Function, calculatedDirectCost: number) {
+        for (let r = rowCol.row - 1; r <= rowCol.row + 1; r++) {
+            for (let c = rowCol.col - 1; c <= rowCol.col + 1; c++) {
+                if (!(r !== rowCol.row && c !== rowCol.col)) {
+
+                    const current = { 
+                        row: r, col: c, 
+                        weight: rowCol.weight + 1, 
+                        previous: rowCol, 
+                        directCost: calculatedDirectCost ? calculatedDirectCost : 0
+                    };
+
+                    if (this.grid[r]             && 
+                        this.grid[r][c] === 0    && 
+                        !this.isInQueue(current)) {
+                            console.log("calling cb", cb)
+                            cb(r, c, current);
+                    } 
+                }
+            }
+        }
+    }
+
+    addToQueue(r:number, c:number, current:RowColCoords) {
+        console.log("adding to queue")
+        this.queue.add(current)
+        this.inQueue[`${r}-${c}`] = true;
+        this.fill(current, "rgb(191, 239, 255");
+    } 
+
+    addToStack(r:number, c:number, current:RowColCoords) {
+        console.log("adding to stack")
+        this.stack.unshift(current);
+        this.inQueue[`${r}-${c}`] = true;
+        this.fill(current, "rgb(191, 239, 255");
+    }
+
     walk(rowCol:RowColCoords, algorithn:string) {
         const directCost = (this.finish.row - rowCol.row) + (this.finish.col - rowCol.col);
         const calculatedDirectCost = this.isAStar(algorithn) ? directCost : 0; // only calc path cost is algo is astar
 
-        let left  = { row: rowCol.row     , col: rowCol.col + 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
-        let right = { row: rowCol.row     , col: rowCol.col - 1, weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
-        let up    = { row: rowCol.row - 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
-        let down  = { row: rowCol.row + 1 , col: rowCol.col    , weight: rowCol.weight + 1, previous: rowCol, directCost: calculatedDirectCost};
-
         this.visited.push(rowCol);
+
         if (rowCol.row === this.finish.row && rowCol.col === this.finish.col) {
             this.done = true;
             return console.log("done");
         }
-//
 
         this.fill(rowCol, "rgb(114, 143, 153");
         
-
-        
-        if (!this.isInQueue(down) && rowCol.row + 1 < this.rows && this.grid[down.row][down.col] !== 1) {
-            this.queue.add(down)
-            this.inQueue[`${rowCol.row + 1}-${rowCol.col}`] = true;
-            this.fill(down, "rgb(191, 239, 255");
-        }
-
-        
-        if (!this.isInQueue(up) && rowCol.row - 1 >= 0 && this.grid[up.row][up.col] !== 1) {
-            this.queue.add(up)
-            this.inQueue[`${rowCol.row - 1}-${rowCol.col}`] = true;
-            this.fill(up, "rgb(191, 239, 255");
-        }
-
-        
-        if (!this.isInQueue(left) && rowCol.col + 1 < this.cols && this.grid[left.row][left.col] !== 1) {
-            this.queue.add(left)
-            this.inQueue[`${rowCol.row}-${rowCol.col + 1}`] = true;
-            this.fill(left, "rgb(191, 239, 255");
-        }
-
-        
-        if (!this.isInQueue(right) && rowCol.col - 1 >= 0 && this.grid[right.row][right.col] !== 1) {
-            this.queue.add(right)
-            this.inQueue[`${rowCol.row}-${rowCol.col - 1}`] = true;
-            this.fill(right, "rgb(191, 239, 255");
-        }
+        // traversing th naighbors
+        this.checkNeighbors(rowCol, this.addToQueue.bind(this), calculatedDirectCost);
 
         if (rowCol === this.start) {
             this.inQueue[`${rowCol.row}-${rowCol.col}`] = true;
         }
     }
 
+
+
+    dfs(rowCol:RowColCoords) {
+        this.visited.push(rowCol);
+
+        if (rowCol.row === this.finish.row && rowCol.col === this.finish.col) {
+            this.done = true;
+            return console.log("done");
+        }
+
+        this.fill(rowCol, "rgb(114, 143, 153");
+
+        // traversing th naighbors
+        this.checkNeighbors(rowCol, this.addToStack.bind(this), null);
+
+        if (rowCol === this.start) {
+            this.inQueue[`${rowCol.row}-${rowCol.col}`] = true;
+        }
+
+    }
 }

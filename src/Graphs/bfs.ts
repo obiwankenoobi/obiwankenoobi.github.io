@@ -24,7 +24,7 @@ function draw() {
     maze.draw();
     if (!maze.queue.isEmpty() && !maze.done) {
         const current = maze.queue.poll();
-        maze.walk((current), "bfs");
+        maze.walk(current, "bfs");
     } else {
         if (!maze.visited[maze.visited.length - 1].previous) return;
         

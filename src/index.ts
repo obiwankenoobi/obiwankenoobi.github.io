@@ -9,6 +9,7 @@ const { startRocket } = require("./SmartRockets/index");
 const { startAdvencedSteering } = require("./Steering/index");
 const { startAStart } = require("./Graphs/astar");
 const { startBFS } = require("./Graphs/bfs");
+const { startDFS } = require("./Graphs/dfs");
 
 const bouncingBtn = document.querySelector("#bouncing-btn");
 const orbitingBtn = document.querySelector("#orbiting-btn");
@@ -17,6 +18,7 @@ const rocketBtn = document.querySelector("#rocket-btn");
 const steeringAdvencedBtn = document.querySelector("#steering-advenced-btn");
 const AStarBtn = document.querySelector("#a-star-btn");
 const bfsBtn = document.querySelector("#bfs-btn");
+const dfsBtn = document.querySelector("#dfs-btn");
 
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
@@ -25,3 +27,4 @@ rocketBtn.addEventListener("click", startRocket);
 steeringAdvencedBtn.addEventListener("click", startAdvencedSteering);
 AStarBtn.addEventListener("click", startAStart);
 bfsBtn.addEventListener("click", startBFS);
+dfsBtn.addEventListener("click", startDFS);
