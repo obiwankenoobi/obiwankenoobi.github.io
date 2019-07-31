@@ -3,20 +3,58 @@
 ## Physics & Math
 
 ### Forces 
-* Accelaration  
-  `Acc = force / mass`
+* Accelaration 
+  >In physics, acceleration is the rate of change of velocity of an object with respect to time. An object's acceleration is the net result of all forces acting on the object, as described by Newton's Second Law. The SI unit for acceleration is metre per second squared (m⋅s−2). Accelerations are vector quantities (they have magnitude and direction) and add according to the parallelogram law. The vector of the net force acting on a body has the same direction as the vector of the body's acceleration, and its magnitude is proportional to the magnitude of the acceleration, with the object's mass (a scalar quantity) as proportionality constant. [wikipedia](https://en.wikipedia.org/wiki/Acceleration)
+  
+  formula (simplified):
+  ```
+  Acc = force:Vector / mass:number
+  ```
 
-* Friction (simplified)  
-  `Friction = -1 * direction * constant`
+<br>
+<br>
 
-* Drag force (simplified)  
-  `Drag = -1 * constant * ||obj.velocity||^2 * direction`
+* Friction
+    > Friction is the force resisting the relative motion of solid surfaces, fluid layers, and material elements sliding against each other. [wikipedia](https://en.wikipedia.org/wiki/Friction)
 
-* Gravitational Attraction (simplified)  
-  `GA = ((G * obj1.mass * obj2.mass) / distance^2) * direction`
+  formula (simplified):
+  ```
+  Friction = -1 * direction:Vector * constant:number
+  ``` 
+  
+<br>
+<br>
+
+* Drag force 
+    >In fluid dynamics, drag (sometimes called air resistance, a type of friction, or fluid resistance, another type of friction or fluid friction) is a force acting opposite to the relative motion of any object moving with respect to a surrounding fluid.[1] This can exist between two fluid layers (or surfaces) or a fluid and a solid surface. Unlike other resistive forces, such as dry friction, which are nearly independent of velocity, drag forces depend on velocity.[2][3] Drag force is proportional to the velocity for a laminar flow and the squared velocity for a turbulent flow. Even though the ultimate cause of a drag is viscous friction, the turbulent drag is independent of viscosity. [wikipedia](https://en.wikipedia.org/wiki/Drag_(physics))
+
+    formula (simplified):
+    ```
+    Drag = -1 * constant * ||obj.velocity||^2 * direction
+    ``` 
+
+<br>
+<br>
+
+* Gravitational Attraction
+    >Gravity (from Latin gravitas, meaning 'weight'[1]), or gravitation, is a natural phenomenon by which all things with mass or energy—including planets, stars, galaxies, and even light[2]—are brought toward (or gravitate toward) one another. On Earth, gravity gives weight to physical objects, and the Moon's gravity causes the ocean tides. The gravitational attraction of the original gaseous matter present in the Universe caused it to begin coalescing, forming stars—and for the stars to group together into galaxies—so gravity is responsible for many of the large-scale structures in the Universe. Gravity has an infinite range, although its effects become increasingly weaker on farther objects. [wikipedia](https://en.wikipedia.org/wiki/Gravity)
+
+    formula (simplified):
+    ```
+    GA = ((G * obj1.mass:number * obj2.mass:number) / distance:Vector^2) * direction:Vector
+    ```
+
+<br>
+<br>
 
 * Steering  
-  `Steering = (desire.direction * maxSpeed) - (direction * maxSteer)`
+  [more info](http://www.red3d.com/cwr/steer/)
+  ```
+  Steering = (desire.direction * maxSpeed) - (direction * maxSteer)
+  ```
+
+<br>
+<br>
 
 ### Vectors
 * Magnitude  
@@ -30,6 +68,9 @@
 
 
 ## Genetic Algorithm
+> In computer science and operations research, a genetic algorithm (GA) is a metaheuristic inspired by the process of natural selection that belongs to the larger class of evolutionary algorithms (EA). Genetic algorithms are commonly used to generate high-quality solutions to optimization and search problems by relying on bio-inspired operators such as mutation, crossover and selection. John Holland introduced genetic algorithms in 1960 based on the concept of Darwin’s theory of evolution; afterwards, his student David E. Goldberg extended GA in 1989.  [wikipedia](https://en.wikipedia.org/wiki/Genetic_algorithm)
+
+
 
 ### Darwinian Natural Selection
 
@@ -42,6 +83,8 @@
 * **Selection**  
   There must be a mechanism by which some members of the population have the opportunity to be parents and pass down therir genetic information and some do not. This is typically referred to as "survival of the fittst"
 
+<br>
+<br>
 
 ## Graphs
 
