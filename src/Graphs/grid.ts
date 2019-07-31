@@ -149,9 +149,9 @@ export class Maze extends Grid {
         // traversing th naighbors
         this.checkNeighbors(rowCol, this.addToQueue.bind(this), calculatedDirectCost);
 
-        if (rowCol === this.start) {
+        if (rowCol === this.start) 
             this.inQueue[`${rowCol.row}-${rowCol.col}`] = true;
-        }
+        
     }
 
 
@@ -169,9 +169,9 @@ export class Maze extends Grid {
         // traversing th naighbors
         this.checkNeighbors(rowCol, this.addToStack.bind(this), null);
 
-        if (rowCol === this.start) {
+        if (rowCol === this.start) 
             this.inQueue[`${rowCol.row}-${rowCol.col}`] = true;
-        }
+        
 
     }
 }
