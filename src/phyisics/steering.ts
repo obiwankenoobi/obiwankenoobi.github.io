@@ -1,7 +1,7 @@
 import { CountFramesClass } from "../countFrames";
 import { VectorClass } from "../vector";
 import { BallClass, Config } from "../ball"
-import { Vehicle } from "./vehicle";
+import { Vehicle } from "../vehicle";
 import { animations } from "../index";
 
 

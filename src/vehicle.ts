@@ -1,12 +1,12 @@
-import { BallClass } from "../ball";
-import { VectorClass } from "../vector";
+import { BallClass } from "./ball";
+import { VectorClass } from "./vector";
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 
 
 export class Vehicle extends BallClass {
 
     private maxSpeed: number = 1;
-    private maxSteer: number = 0.2;
+    private maxSteer: number = 0.1;
     public steer: VectorClass = new VectorClass();
     public closestEl: VectorClass = new VectorClass();
     public foodSight = 100;

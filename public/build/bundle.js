@@ -365,7 +365,7 @@ function startAStart() {
 }
 exports.startAStart = startAStart;
 
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"./grid":5}],3:[function(require,module,exports){
+},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"./grid":5}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -413,7 +413,7 @@ function startBFS() {
 }
 exports.startBFS = startBFS;
 
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"./grid":5}],4:[function(require,module,exports){
+},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"./grid":5}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -460,7 +460,7 @@ function startDFS() {
 }
 exports.startDFS = startDFS;
 
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"./grid":5}],5:[function(require,module,exports){
+},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"./grid":5}],5:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -643,7 +643,7 @@ var DNA = /** @class */ (function () {
 }());
 exports.DNA = DNA;
 
-},{"../vector":20}],7:[function(require,module,exports){
+},{"../vector":19}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
@@ -711,7 +711,7 @@ function startRocket() {
 }
 exports.startRocket = startRocket;
 
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20,"./population":8}],8:[function(require,module,exports){
+},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19,"./population":8}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rocket_1 = require("./rocket");
@@ -836,11 +836,385 @@ var Rocket = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Rocket = Rocket;
 
-},{"../ball":13,"../vector":20,"./DNA":6}],10:[function(require,module,exports){
+},{"../ball":11,"../vector":19,"./DNA":6}],10:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var Animations = /** @class */ (function () {
+    function Animations() {
+        this.animations = [];
+    }
+    Animations.prototype.add = function (id) { this.animations.push(id); };
+    Animations.prototype.clear = function (id) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (id) {
+            this.animations = this.animations.filter(function (i) { return i !== id; });
+            return cancelAnimationFrame(id);
+        }
+        this.animations.forEach(function (i) { return cancelAnimationFrame(i); });
+    };
+    return Animations;
+}());
+exports.Animations = Animations;
+
+},{}],11:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var vector_1 = require("./vector");
+var defaultConfig = {
+    acc: { x: 0, y: 0 },
+    pos: { x: 0, y: 0 },
+    velocity: { x: 0, y: 0 },
+    mass: 1
+};
+var BallClass = /** @class */ (function () {
+    function BallClass(config) {
+        if (config === void 0) { config = defaultConfig; }
+        this.acc = new vector_1.VectorClass(config.acc.x, config.acc.y);
+        this.velocity = new vector_1.VectorClass(config.velocity.x, config.velocity.y);
+        this.mass = config.mass;
+        this.pos = new vector_1.VectorClass(config.pos.x, config.pos.y);
+        this.radius = this.mass * 5;
+    }
+    BallClass.prototype.move = function () {
+        this.velocity.add(this.acc);
+        this.pos.add(this.velocity);
+        this.acc.mult(0);
+    };
+    BallClass.prototype.limitVelocity = function (num) {
+        this.velocity.max(num);
+    };
+    BallClass.prototype.applyForce = function (force) {
+        // nyuton second law
+        // accelaration = force / mass;
+        var f = vector_1.VectorClass.div(force, this.mass);
+        this.acc.add(f);
+    };
+    return BallClass;
+}());
+exports.BallClass = BallClass;
+
+},{"./vector":19}],12:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var CountFramesClass = /** @class */ (function () {
+    function CountFramesClass() {
+        this.frames = 1;
+        this.lastSecondFrames = 0;
+        this.lastTime = Math.ceil(new Date().getTime() / 1000);
+    }
+    CountFramesClass.prototype.add = function () {
+        var now = Math.ceil(new Date().getTime() / 1000);
+        if (now !== this.lastTime) {
+            this.lastSecondFrames = this.frames;
+            this.reset();
+            this.lastTime = now;
+        }
+        else {
+            this.frames++;
+        }
+    };
+    CountFramesClass.prototype.reset = function () { this.frames = 1; };
+    return CountFramesClass;
+}());
+exports.CountFramesClass = CountFramesClass;
+
+},{}],13:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var animations_1 = require("./animations");
+exports.animations = new animations_1.Animations();
+var startBouncing = require("./phyisics/drag").startBouncing;
+var startOrbit = require("./phyisics/ga").startOrbit;
+var startGello = require("./phyisics/friction").startGello;
+var startAdvencedSteering = require("./phyisics/steering").startAdvencedSteering;
+var startRocket = require("./SmartRockets/index").startRocket;
+var startAStart = require("./Graphs/astar").startAStart;
+var startBFS = require("./Graphs/bfs").startBFS;
+var startDFS = require("./Graphs/dfs").startDFS;
+var bouncingBtn = document.querySelector("#bouncing-btn");
+var orbitingBtn = document.querySelector("#orbiting-btn");
+var gelloBtn = document.querySelector("#gello-btn");
+var rocketBtn = document.querySelector("#rocket-btn");
+var steeringAdvencedBtn = document.querySelector("#steering-advenced-btn");
+var AStarBtn = document.querySelector("#a-star-btn");
+var bfsBtn = document.querySelector("#bfs-btn");
+var dfsBtn = document.querySelector("#dfs-btn");
+bouncingBtn.addEventListener("click", startBouncing);
+orbitingBtn.addEventListener("click", startOrbit);
+gelloBtn.addEventListener("click", startGello);
+rocketBtn.addEventListener("click", startRocket);
+steeringAdvencedBtn.addEventListener("click", startAdvencedSteering);
+AStarBtn.addEventListener("click", startAStart);
+bfsBtn.addEventListener("click", startBFS);
+dfsBtn.addEventListener("click", startDFS);
+
+},{"./Graphs/astar":2,"./Graphs/bfs":3,"./Graphs/dfs":4,"./SmartRockets/index":7,"./animations":10,"./phyisics/drag":14,"./phyisics/friction":15,"./phyisics/ga":16,"./phyisics/steering":18}],14:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var vector_1 = require("../vector");
+var countFrames_1 = require("../countFrames");
+var index_1 = require("../index");
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
+var balls = [];
+var animationId;
+var framesCounter;
+function setupBouncing() {
+    balls = [];
+    cancelAnimationFrame(animationId);
+    canvas.style.backgroundColor = "#000";
+    framesCounter = new countFrames_1.CountFramesClass();
+    balls = createBalls(5, canvas);
+}
+function drawBall(item, color) {
+    var drag;
+    var gravity;
+    var wind;
+    gravity = new vector_1.VectorClass(0, 0.7);
+    wind = new vector_1.VectorClass(0, 0);
+    gravity.mult(item.mass); // allow us to get the same gravity force no matter the mass
+    drag = item.velocity.get();
+    var speed = item.velocity.mag();
+    drag.normalize();
+    drag.mult(speed * speed * -0.001);
+    item.applyForce(drag);
+    item.applyForce(gravity);
+    item.applyForce(wind);
+    item.move();
+    bounderyCheck(item, canvas);
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.arc(item.pos.x, item.pos.y, item.radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.closePath();
+}
+function drawBouncing() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBalls(balls, "red", function (ball, color) { return drawBall(ball, color); });
+    drawFrameCounter(framesCounter, ctx, canvas);
+    animationId = requestAnimationFrame(drawBouncing);
+    index_1.animations.add(animationId);
+}
+function startBouncing() {
+    index_1.animations.clear(null);
+    setupBouncing();
+    drawBouncing();
+}
+exports.startBouncing = startBouncing;
+
+},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19}],15:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var vector_1 = require("../vector");
+var countFrames_1 = require("../countFrames");
+var index_1 = require("../index");
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
+var animationId;
+var framesCounter;
+var balls = [];
+function setupGello() {
+    balls = []; // clearing balls
+    cancelAnimationFrame(animationId);
+    canvas.style.backgroundColor = "#000";
+    framesCounter = new countFrames_1.CountFramesClass();
+    balls = createBalls(5, canvas);
+}
+function drawRect(x, y, width, height, color) {
+    ctx.rect(x, y, width, height);
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+function isInsideGello(x, y) {
+    return y > canvas.height / 2;
+}
+function drawBall(item, color) {
+    var drag;
+    var gravity;
+    gravity = new vector_1.VectorClass(0, 0.3);
+    gravity.mult(item.mass); // allow us to get the same gravity force no matter the mass
+    drag = item.velocity.get();
+    drag.normalize();
+    var speed = item.velocity.mag();
+    if (isInsideGello(item.pos.x, item.pos.y)) {
+        drag.mult(speed * speed * -0.125); // gello drag
+    }
+    else {
+        drag.mult(speed * speed * -0.001); // air drag
+    }
+    item.applyForce(drag);
+    item.applyForce(gravity);
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.arc(item.pos.x, item.pos.y, item.radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.closePath();
+    bounderyCheck(item, canvas);
+    item.move();
+}
+function drawGello() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawRect(0, canvas.height / 2, canvas.width, canvas.height / 2, "lightgrey");
+    drawBalls(balls, "red", function (ball, color) { return drawBall(ball, color); });
+    drawFrameCounter(framesCounter, ctx, canvas);
+    animationId = requestAnimationFrame(drawGello);
+    index_1.animations.add(animationId);
+}
+function startGello() {
+    index_1.animations.clear(null);
+    setupGello();
+    drawGello();
+}
+exports.startGello = startGello;
+
+},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19}],16:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var vector_1 = require("../vector");
+var countFrames_1 = require("../countFrames");
+var ball_1 = require("../ball");
+var index_1 = require("../index");
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var _a = require("../phyisics/helpers"), bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
+var animationId;
+var framesCounter;
+var gravity;
+gravity = new vector_1.VectorClass();
+var attractor;
+var attractorConfig;
+var attracted;
+var attractedConfig;
+function setupOrbit() {
+    cancelAnimationFrame(animationId);
+    canvas.style.backgroundColor = "#000";
+    framesCounter = new countFrames_1.CountFramesClass();
+    attractorConfig = {
+        acc: { x: 0, y: 0 },
+        pos: { x: canvas.width / 2, y: canvas.height / 2 },
+        velocity: { x: 0, y: 0 },
+        mass: 2
+    };
+    attractedConfig = {
+        acc: { x: 0, y: 0 },
+        pos: { x: canvas.width / 2, y: canvas.height / 4 },
+        velocity: { x: 1.75, y: 0 },
+        mass: 1
+    };
+    attracted = new ball_1.BallClass(attractedConfig);
+    attractor = new ball_1.BallClass(attractorConfig);
+}
+function drawItem(item, color) {
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.arc(item.pos.x, item.pos.y, item.radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.closePath();
+}
+function drawOrbit() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawItem(attractor, "red");
+    drawItem(attracted, "blue");
+    var attractorForce = vector_1.VectorClass.sub(attractor.pos, attracted.pos);
+    var distance;
+    // limiting the dstance
+    var attractorForceMag = attractorForce.mag();
+    if (attractorForceMag > 25) {
+        distance = 25;
+    }
+    else if (attractorForceMag < 5) {
+        distance = 5;
+    }
+    attractorForce.normalize();
+    var c = 10;
+    var gravityForce = ((c * attractor.mass * attracted.mass) / (distance * distance));
+    attractorForce.mult(gravityForce);
+    attracted.applyForce(attractorForce);
+    attractor.move();
+    attracted.move();
+    bounderyCheck(attractor, canvas);
+    bounderyCheck(attracted, canvas);
+    drawFrameCounter(framesCounter, ctx, canvas);
+    animationId = requestAnimationFrame(drawOrbit);
+    index_1.animations.add(animationId);
+}
+function startOrbit() {
+    index_1.animations.clear(null);
+    setupOrbit();
+    drawOrbit();
+}
+exports.startOrbit = startOrbit;
+
+},{"../ball":11,"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
-var vehicle_1 = require("./vehicle");
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+exports.randomNumber = randomNumber;
+function drawBalls(balls, color, cb) {
+    for (var _i = 0, balls_1 = balls; _i < balls_1.length; _i++) {
+        var ball = balls_1[_i];
+        cb(ball, color);
+    }
+}
+exports.drawBalls = drawBalls;
+function drawFrameCounter(framesCounter, ctx, canvas) {
+    framesCounter.add();
+    ctx.beginPath();
+    ctx.font = "14px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("FPS:" + framesCounter.lastSecondFrames, 10, canvas.height - 10);
+    ctx.closePath();
+}
+exports.drawFrameCounter = drawFrameCounter;
+function createBalls(numOfBalls, canvas) {
+    var balls = [];
+    var ball;
+    for (var idx = 0; idx < numOfBalls; idx++) {
+        var ballConfig = void 0;
+        ballConfig = {
+            acc: { x: 0, y: 0 },
+            pos: { x: (canvas.width / numOfBalls) / 2 + idx * (canvas.width / numOfBalls), y: 0 },
+            velocity: { x: 0, y: 0 },
+            mass: randomNumber(1, 5)
+        };
+        ball = new ball_1.BallClass(ballConfig);
+        balls.push(ball);
+    }
+    return balls;
+}
+exports.createBalls = createBalls;
+function bounderyCheck(ball, canvas) {
+    if (ball.pos.x >= canvas.width) {
+        ball.velocity.x *= -1;
+        ball.pos.x = canvas.width;
+    }
+    else if (ball.pos.x < 0) {
+        ball.velocity.x *= -1;
+        ball.pos.x = 0;
+    }
+    if (ball.pos.y >= canvas.height - ball.radius / 2) {
+        ball.velocity.y *= -1;
+        ball.pos.y = canvas.height - ball.radius / 2;
+    }
+    else if (ball.pos.y < 0) {
+        ball.velocity.y *= -1;
+        ball.pos.y = 0;
+    }
+}
+exports.bounderyCheck = bounderyCheck;
+
+},{"../ball":11}],18:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var ball_1 = require("../ball");
+var vehicle_1 = require("../vehicle");
 var index_1 = require("../index");
 var canvas = document.getElementById("canvas");
 var foods = createObjects(50);
@@ -913,7 +1287,90 @@ function startAdvencedSteering() {
 }
 exports.startAdvencedSteering = startAdvencedSteering;
 
-},{"../ball":13,"../index":15,"./vehicle":11}],11:[function(require,module,exports){
+},{"../ball":11,"../index":13,"../vehicle":20}],19:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+exports.randomNumber = randomNumber;
+var VectorClass = /** @class */ (function () {
+    function VectorClass(x, y) {
+        if (x === void 0) { x = 0; }
+        if (y === void 0) { y = 0; }
+        this.x = x;
+        this.y = y;
+    }
+    VectorClass.prototype.add = function (vector) {
+        this.x += vector.x;
+        this.y += vector.y;
+        return this;
+    };
+    VectorClass.prototype.angle = function (vector) {
+        var mag = this.mag();
+        var vectorMag = vector.mag();
+        return Math.cos((this.x * vector.x + this.y * vector.y) / mag * vectorMag);
+    };
+    VectorClass.prototype.sub = function (vector) {
+        this.x -= vector.x;
+        this.y -= vector.y;
+        return this;
+    };
+    VectorClass.sub = function (vectorA, vectorB) {
+        return new VectorClass(vectorA.x - vectorB.x, vectorA.y - vectorB.y);
+    };
+    VectorClass.prototype.mult = function (multBy) {
+        this.x *= multBy;
+        this.y *= multBy;
+        return this;
+    };
+    VectorClass.prototype.div = function (divBydivBy) {
+        this.x /= divBydivBy;
+        this.y /= divBydivBy;
+        return this;
+    };
+    VectorClass.div = function (vector, divBy) {
+        return new VectorClass(vector.x / divBy, vector.y / divBy);
+    };
+    VectorClass.prototype.mag = function () {
+        return Math.sqrt((this.x * this.x) + (this.y * this.y));
+    };
+    VectorClass.prototype.setMag = function (num) {
+        this.normalize();
+        this.mult(num);
+    };
+    VectorClass.prototype.normalize = function () {
+        var mag = this.mag();
+        this.x = mag === 0 ? 0 : this.x / mag;
+        this.y = mag === 0 ? 0 : this.y / mag;
+        return this;
+    };
+    VectorClass.prototype.max = function (val) {
+        if (Math.abs(this.x) > val) {
+            this.x = this.x < 0 ? -1 * val : val;
+        }
+        if (Math.abs(this.y) > val) {
+            this.y = this.y < 0 ? -1 * val : val;
+        }
+    };
+    VectorClass.prototype.dist = function (vector) {
+        var dist = VectorClass.sub(vector, this);
+        var distLen = dist.mag();
+        return distLen;
+    };
+    VectorClass.randomVector = function (canvasWidth, canvasHight) {
+        var x = Math.floor(randomNumber(-canvasWidth, canvasWidth));
+        var y = Math.floor(randomNumber(-canvasHight, canvasHight));
+        return new VectorClass(x, y);
+    };
+    VectorClass.prototype.get = function () {
+        return new VectorClass(this.x, this.y);
+    };
+    return VectorClass;
+}());
+exports.VectorClass = VectorClass;
+
+},{}],20:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -929,15 +1386,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var ball_1 = require("../ball");
-var vector_1 = require("../vector");
+var ball_1 = require("./ball");
+var vector_1 = require("./vector");
 var canvas = document.getElementById("canvas");
 var Vehicle = /** @class */ (function (_super) {
     __extends(Vehicle, _super);
     function Vehicle() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.maxSpeed = 1;
-        _this.maxSteer = 0.2;
+        _this.maxSteer = 0.1;
         _this.steer = new vector_1.VectorClass();
         _this.closestEl = new vector_1.VectorClass();
         _this.foodSight = 100;
@@ -1021,461 +1478,4 @@ var Vehicle = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Vehicle = Vehicle;
 
-},{"../ball":13,"../vector":20}],12:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var Animations = /** @class */ (function () {
-    function Animations() {
-        this.animations = [];
-    }
-    Animations.prototype.add = function (id) { this.animations.push(id); };
-    Animations.prototype.clear = function (id) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (id) {
-            this.animations = this.animations.filter(function (i) { return i !== id; });
-            return cancelAnimationFrame(id);
-        }
-        this.animations.forEach(function (i) { return cancelAnimationFrame(i); });
-    };
-    return Animations;
-}());
-exports.Animations = Animations;
-
-},{}],13:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var vector_1 = require("./vector");
-var defaultConfig = {
-    acc: { x: 0, y: 0 },
-    pos: { x: 0, y: 0 },
-    velocity: { x: 0, y: 0 },
-    mass: 1
-};
-var BallClass = /** @class */ (function () {
-    function BallClass(config) {
-        if (config === void 0) { config = defaultConfig; }
-        this.acc = new vector_1.VectorClass(config.acc.x, config.acc.y);
-        this.velocity = new vector_1.VectorClass(config.velocity.x, config.velocity.y);
-        this.mass = config.mass;
-        this.pos = new vector_1.VectorClass(config.pos.x, config.pos.y);
-        this.radius = this.mass * 5;
-    }
-    BallClass.prototype.move = function () {
-        this.velocity.add(this.acc);
-        this.pos.add(this.velocity);
-        this.acc.mult(0);
-    };
-    BallClass.prototype.limitVelocity = function (num) {
-        this.velocity.max(num);
-    };
-    BallClass.prototype.applyForce = function (force) {
-        // nyuton second law
-        // accelaration = force / mass;
-        var f = vector_1.VectorClass.div(force, this.mass);
-        this.acc.add(f);
-    };
-    return BallClass;
-}());
-exports.BallClass = BallClass;
-
-},{"./vector":20}],14:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var CountFramesClass = /** @class */ (function () {
-    function CountFramesClass() {
-        this.frames = 1;
-        this.lastSecondFrames = 0;
-        this.lastTime = Math.ceil(new Date().getTime() / 1000);
-    }
-    CountFramesClass.prototype.add = function () {
-        var now = Math.ceil(new Date().getTime() / 1000);
-        if (now !== this.lastTime) {
-            this.lastSecondFrames = this.frames;
-            this.reset();
-            this.lastTime = now;
-        }
-        else {
-            this.frames++;
-        }
-    };
-    CountFramesClass.prototype.reset = function () { this.frames = 1; };
-    return CountFramesClass;
-}());
-exports.CountFramesClass = CountFramesClass;
-
-},{}],15:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var animations_1 = require("./animations");
-exports.animations = new animations_1.Animations();
-var startBouncing = require("./phyisics/bouncing").startBouncing;
-var startOrbit = require("./phyisics/orbiting").startOrbit;
-var startGello = require("./phyisics/gello").startGello;
-var startRocket = require("./SmartRockets/index").startRocket;
-var startAdvencedSteering = require("./Steering/index").startAdvencedSteering;
-var startAStart = require("./Graphs/astar").startAStart;
-var startBFS = require("./Graphs/bfs").startBFS;
-var startDFS = require("./Graphs/dfs").startDFS;
-var bouncingBtn = document.querySelector("#bouncing-btn");
-var orbitingBtn = document.querySelector("#orbiting-btn");
-var gelloBtn = document.querySelector("#gello-btn");
-var rocketBtn = document.querySelector("#rocket-btn");
-var steeringAdvencedBtn = document.querySelector("#steering-advenced-btn");
-var AStarBtn = document.querySelector("#a-star-btn");
-var bfsBtn = document.querySelector("#bfs-btn");
-var dfsBtn = document.querySelector("#dfs-btn");
-bouncingBtn.addEventListener("click", startBouncing);
-orbitingBtn.addEventListener("click", startOrbit);
-gelloBtn.addEventListener("click", startGello);
-rocketBtn.addEventListener("click", startRocket);
-steeringAdvencedBtn.addEventListener("click", startAdvencedSteering);
-AStarBtn.addEventListener("click", startAStart);
-bfsBtn.addEventListener("click", startBFS);
-dfsBtn.addEventListener("click", startDFS);
-
-},{"./Graphs/astar":2,"./Graphs/bfs":3,"./Graphs/dfs":4,"./SmartRockets/index":7,"./Steering/index":10,"./animations":12,"./phyisics/bouncing":16,"./phyisics/gello":17,"./phyisics/orbiting":19}],16:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var vector_1 = require("../vector");
-var countFrames_1 = require("../countFrames");
-var index_1 = require("../index");
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
-var balls = [];
-var animationId;
-var framesCounter;
-function setupBouncing() {
-    balls = [];
-    cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
-    framesCounter = new countFrames_1.CountFramesClass();
-    balls = createBalls(5, canvas);
-}
-function drawBall(item, color) {
-    var drag;
-    var gravity;
-    var wind;
-    gravity = new vector_1.VectorClass(0, 0.7);
-    wind = new vector_1.VectorClass(0, 0);
-    gravity.mult(item.mass); // allow us to get the same gravity force no matter the mass
-    drag = item.velocity.get();
-    var speed = item.velocity.mag();
-    drag.normalize();
-    drag.mult(speed * speed * -0.001);
-    item.applyForce(drag);
-    item.applyForce(gravity);
-    item.applyForce(wind);
-    item.move();
-    bounderyCheck(item, canvas);
-    ctx.beginPath();
-    ctx.fillStyle = color;
-    ctx.arc(item.pos.x, item.pos.y, item.radius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.closePath();
-}
-function drawBouncing() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBalls(balls, "red", function (ball, color) { return drawBall(ball, color); });
-    drawFrameCounter(framesCounter, ctx, canvas);
-    animationId = requestAnimationFrame(drawBouncing);
-    index_1.animations.add(animationId);
-}
-function startBouncing() {
-    index_1.animations.clear(null);
-    setupBouncing();
-    drawBouncing();
-}
-exports.startBouncing = startBouncing;
-
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20}],17:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var vector_1 = require("../vector");
-var countFrames_1 = require("../countFrames");
-var index_1 = require("../index");
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
-var animationId;
-var framesCounter;
-var balls = [];
-function setupGello() {
-    balls = []; // clearing balls
-    cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
-    framesCounter = new countFrames_1.CountFramesClass();
-    balls = createBalls(5, canvas);
-}
-function drawRect(x, y, width, height, color) {
-    ctx.rect(x, y, width, height);
-    ctx.fillStyle = color;
-    ctx.fill();
-}
-function isInsideGello(x, y) {
-    return y > canvas.height / 2;
-}
-function drawBall(item, color) {
-    var drag;
-    var gravity;
-    gravity = new vector_1.VectorClass(0, 0.3);
-    gravity.mult(item.mass); // allow us to get the same gravity force no matter the mass
-    drag = item.velocity.get();
-    drag.normalize();
-    var speed = item.velocity.mag();
-    if (isInsideGello(item.pos.x, item.pos.y)) {
-        drag.mult(speed * speed * -0.125); // gello drag
-    }
-    else {
-        drag.mult(speed * speed * -0.001); // air drag
-    }
-    item.applyForce(drag);
-    item.applyForce(gravity);
-    ctx.beginPath();
-    ctx.fillStyle = color;
-    ctx.arc(item.pos.x, item.pos.y, item.radius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.closePath();
-    bounderyCheck(item, canvas);
-    item.move();
-}
-function drawGello() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawRect(0, canvas.height / 2, canvas.width, canvas.height / 2, "lightgrey");
-    drawBalls(balls, "red", function (ball, color) { return drawBall(ball, color); });
-    drawFrameCounter(framesCounter, ctx, canvas);
-    animationId = requestAnimationFrame(drawGello);
-    index_1.animations.add(animationId);
-}
-function startGello() {
-    index_1.animations.clear(null);
-    setupGello();
-    drawGello();
-}
-exports.startGello = startGello;
-
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20}],18:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var ball_1 = require("../ball");
-function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-exports.randomNumber = randomNumber;
-function drawBalls(balls, color, cb) {
-    for (var _i = 0, balls_1 = balls; _i < balls_1.length; _i++) {
-        var ball = balls_1[_i];
-        cb(ball, color);
-    }
-}
-exports.drawBalls = drawBalls;
-function drawFrameCounter(framesCounter, ctx, canvas) {
-    framesCounter.add();
-    ctx.beginPath();
-    ctx.font = "14px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText("FPS:" + framesCounter.lastSecondFrames, 10, canvas.height - 10);
-    ctx.closePath();
-}
-exports.drawFrameCounter = drawFrameCounter;
-function createBalls(numOfBalls, canvas) {
-    var balls = [];
-    var ball;
-    for (var idx = 0; idx < numOfBalls; idx++) {
-        var ballConfig = void 0;
-        ballConfig = {
-            acc: { x: 0, y: 0 },
-            pos: { x: (canvas.width / numOfBalls) / 2 + idx * (canvas.width / numOfBalls), y: 0 },
-            velocity: { x: 0, y: 0 },
-            mass: randomNumber(1, 5)
-        };
-        ball = new ball_1.BallClass(ballConfig);
-        balls.push(ball);
-    }
-    return balls;
-}
-exports.createBalls = createBalls;
-function bounderyCheck(ball, canvas) {
-    if (ball.pos.x >= canvas.width) {
-        ball.velocity.x *= -1;
-        ball.pos.x = canvas.width;
-    }
-    else if (ball.pos.x < 0) {
-        ball.velocity.x *= -1;
-        ball.pos.x = 0;
-    }
-    if (ball.pos.y >= canvas.height - ball.radius / 2) {
-        ball.velocity.y *= -1;
-        ball.pos.y = canvas.height - ball.radius / 2;
-    }
-    else if (ball.pos.y < 0) {
-        ball.velocity.y *= -1;
-        ball.pos.y = 0;
-    }
-}
-exports.bounderyCheck = bounderyCheck;
-
-},{"../ball":13}],19:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var vector_1 = require("../vector");
-var countFrames_1 = require("../countFrames");
-var ball_1 = require("../ball");
-var index_1 = require("../index");
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var _a = require("../phyisics/helpers"), bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
-var animationId;
-var framesCounter;
-var gravity;
-gravity = new vector_1.VectorClass();
-var attractor;
-var attractorConfig;
-var attracted;
-var attractedConfig;
-function setupOrbit() {
-    cancelAnimationFrame(animationId);
-    canvas.style.backgroundColor = "#000";
-    framesCounter = new countFrames_1.CountFramesClass();
-    attractorConfig = {
-        acc: { x: 0, y: 0 },
-        pos: { x: canvas.width / 2, y: canvas.height / 2 },
-        velocity: { x: 0, y: 0 },
-        mass: 2
-    };
-    attractedConfig = {
-        acc: { x: 0, y: 0 },
-        pos: { x: canvas.width / 2, y: canvas.height / 4 },
-        velocity: { x: 1.75, y: 0 },
-        mass: 1
-    };
-    attracted = new ball_1.BallClass(attractedConfig);
-    attractor = new ball_1.BallClass(attractorConfig);
-}
-function drawItem(item, color) {
-    ctx.beginPath();
-    ctx.fillStyle = color;
-    ctx.arc(item.pos.x, item.pos.y, item.radius, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.closePath();
-}
-function drawOrbit() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawItem(attractor, "red");
-    drawItem(attracted, "blue");
-    var attractorForce = vector_1.VectorClass.sub(attractor.pos, attracted.pos);
-    var distance;
-    // limiting the dstance
-    var attractorForceMag = attractorForce.mag();
-    if (attractorForceMag > 25) {
-        distance = 25;
-    }
-    else if (attractorForceMag < 5) {
-        distance = 5;
-    }
-    attractorForce.normalize();
-    var c = 10;
-    var gravityForce = ((c * attractor.mass * attracted.mass) / (distance * distance));
-    attractorForce.mult(gravityForce);
-    attracted.applyForce(attractorForce);
-    attractor.move();
-    attracted.move();
-    bounderyCheck(attractor, canvas);
-    bounderyCheck(attracted, canvas);
-    drawFrameCounter(framesCounter, ctx, canvas);
-    animationId = requestAnimationFrame(drawOrbit);
-    index_1.animations.add(animationId);
-}
-function startOrbit() {
-    index_1.animations.clear(null);
-    setupOrbit();
-    drawOrbit();
-}
-exports.startOrbit = startOrbit;
-
-},{"../ball":13,"../countFrames":14,"../index":15,"../phyisics/helpers":18,"../vector":20}],20:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-exports.randomNumber = randomNumber;
-var VectorClass = /** @class */ (function () {
-    function VectorClass(x, y) {
-        if (x === void 0) { x = 0; }
-        if (y === void 0) { y = 0; }
-        this.x = x;
-        this.y = y;
-    }
-    VectorClass.prototype.add = function (vector) {
-        this.x += vector.x;
-        this.y += vector.y;
-        return this;
-    };
-    VectorClass.prototype.angle = function (vector) {
-        var mag = this.mag();
-        var vectorMag = vector.mag();
-        return Math.cos((this.x * vector.x + this.y * vector.y) / mag * vectorMag);
-    };
-    VectorClass.prototype.sub = function (vector) {
-        this.x -= vector.x;
-        this.y -= vector.y;
-        return this;
-    };
-    VectorClass.sub = function (vectorA, vectorB) {
-        return new VectorClass(vectorA.x - vectorB.x, vectorA.y - vectorB.y);
-    };
-    VectorClass.prototype.mult = function (multBy) {
-        this.x *= multBy;
-        this.y *= multBy;
-        return this;
-    };
-    VectorClass.prototype.div = function (divBydivBy) {
-        this.x /= divBydivBy;
-        this.y /= divBydivBy;
-        return this;
-    };
-    VectorClass.div = function (vector, divBy) {
-        return new VectorClass(vector.x / divBy, vector.y / divBy);
-    };
-    VectorClass.prototype.mag = function () {
-        return Math.sqrt((this.x * this.x) + (this.y * this.y));
-    };
-    VectorClass.prototype.setMag = function (num) {
-        this.normalize();
-        this.mult(num);
-    };
-    VectorClass.prototype.normalize = function () {
-        var mag = this.mag();
-        this.x = mag === 0 ? 0 : this.x / mag;
-        this.y = mag === 0 ? 0 : this.y / mag;
-        return this;
-    };
-    VectorClass.prototype.max = function (val) {
-        if (Math.abs(this.x) > val) {
-            this.x = this.x < 0 ? -1 * val : val;
-        }
-        if (Math.abs(this.y) > val) {
-            this.y = this.y < 0 ? -1 * val : val;
-        }
-    };
-    VectorClass.prototype.dist = function (vector) {
-        var dist = VectorClass.sub(vector, this);
-        var distLen = dist.mag();
-        return distLen;
-    };
-    VectorClass.randomVector = function (canvasWidth, canvasHight) {
-        var x = Math.floor(randomNumber(-canvasWidth, canvasWidth));
-        var y = Math.floor(randomNumber(-canvasHight, canvasHight));
-        return new VectorClass(x, y);
-    };
-    VectorClass.prototype.get = function () {
-        return new VectorClass(this.x, this.y);
-    };
-    return VectorClass;
-}());
-exports.VectorClass = VectorClass;
-
-},{}]},{},[15]);
+},{"./ball":11,"./vector":19}]},{},[13]);
