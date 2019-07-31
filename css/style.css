@@ -4,6 +4,10 @@ body {
     font-family: 'Ubuntu', sans-serif;
 }
 
+.gif {
+    max-width: 300px;
+    margin:10px;
+}
 .nav-item {
     margin-right: 20px;
     margin-top: -10px;
