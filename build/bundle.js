@@ -502,7 +502,7 @@ var Grid = /** @class */ (function () {
     }
     Grid.prototype.fill = function (rowCol, color) {
         this.ctx.fillStyle = color;
-        this.ctx.fillRect(rowCol.row * this.tileW + 1, rowCol.col * this.tileH + 1, this.tileW - 1, this.tileH - 1);
+        this.ctx.fillRect(rowCol.row * this.tileW, rowCol.col * this.tileH, this.tileW, this.tileH);
     };
     Grid.prototype.draw = function () {
         for (var r = 0; r < this.grid.length; r++) {
@@ -510,7 +510,7 @@ var Grid = /** @class */ (function () {
                 this.ctx.strokeStyle = "#666";
                 if (this.grid[r][c] === 1) {
                     var rowCol = { row: r, col: c, weight: 0, previous: null, directCost: 0 };
-                    this.fill(rowCol, "#fff");
+                    this.fill(rowCol, "#666");
                 }
             }
         }
@@ -925,6 +925,15 @@ exports.CountFramesClass = CountFramesClass;
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
 exports.animations = new animations_1.Animations();
+var canvas = document.getElementById("canvas");
+var dpi = window.devicePixelRatio;
+function fixDpi() {
+    var styleHeight = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+    var styleWidth = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+    canvas.setAttribute('height', (styleHeight * dpi).toString());
+    canvas.setAttribute('width', (styleWidth * dpi).toString());
+}
+fixDpi();
 var startBouncing = require("./phyisics/drag").startBouncing;
 var startOrbit = require("./phyisics/ga").startOrbit;
 var startGello = require("./phyisics/friction").startGello;
