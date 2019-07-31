@@ -512,6 +512,7 @@ var Maze = /** @class */ (function (_super) {
             this.done = true;
             return console.log("done");
         }
+        //
         this.fill(rowCol, "rgb(114, 143, 153");
         if (!this.isInQueue(down) && rowCol.row + 1 < this.rows && this.grid[down.row][down.col] !== 1) {
             this.queue.add(down);
