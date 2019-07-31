@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.3/mobile-detect.min.js"></script>
     <script>
         var md = new MobileDetect(window.navigator.userAgent);
-        if (!md.mobile() || !md.tablet()) {
+        if (md.mobile() || md.tablet()) {
             window.location.href = "https://obiwankenoobi.github.io/public/404";
         }
     </script>1
