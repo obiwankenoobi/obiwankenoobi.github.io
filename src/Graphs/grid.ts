@@ -114,7 +114,6 @@ export class Maze extends Grid {
                     if (this.grid[r]             && 
                         this.grid[r][c] === 0    && 
                         !this.isInQueue(current)) {
-                            console.log("calling cb", cb)
                             cb(r, c, current);
                     } 
                 }
@@ -123,14 +122,12 @@ export class Maze extends Grid {
     }
 
     addToQueue(r:number, c:number, current:RowColCoords) {
-        console.log("adding to queue")
         this.queue.add(current)
         this.inQueue[`${r}-${c}`] = true;
         this.fill(current, "rgb(191, 239, 255");
     } 
 
     addToStack(r:number, c:number, current:RowColCoords) {
-        console.log("adding to stack")
         this.stack.unshift(current);
         this.inQueue[`${r}-${c}`] = true;
         this.fill(current, "rgb(191, 239, 255");

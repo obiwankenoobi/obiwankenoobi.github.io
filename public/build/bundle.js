@@ -560,7 +560,6 @@ var Maze = /** @class */ (function (_super) {
                     if (this.grid[r] &&
                         this.grid[r][c] === 0 &&
                         !this.isInQueue(current)) {
-                        console.log("calling cb", cb);
                         cb(r, c, current);
                     }
                 }
@@ -568,13 +567,11 @@ var Maze = /** @class */ (function (_super) {
         }
     };
     Maze.prototype.addToQueue = function (r, c, current) {
-        console.log("adding to queue");
         this.queue.add(current);
         this.inQueue[r + "-" + c] = true;
         this.fill(current, "rgb(191, 239, 255");
     };
     Maze.prototype.addToStack = function (r, c, current) {
-        console.log("adding to stack");
         this.stack.unshift(current);
         this.inQueue[r + "-" + c] = true;
         this.fill(current, "rgb(191, 239, 255");
