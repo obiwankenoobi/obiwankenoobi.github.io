@@ -523,7 +523,7 @@ function setup() {
         return __generator(this, function (_a) {
             canvas.style.backgroundColor = "#000";
             cities = new city_1.City();
-            cities.addRandom(5);
+            cities.addRandom(6);
             cities.searchShortestPath();
             return [2 /*return*/];
         });
