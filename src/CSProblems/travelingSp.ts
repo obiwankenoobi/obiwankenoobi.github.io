@@ -8,7 +8,7 @@ async function setup() {
     canvas.style.backgroundColor = "#000";
 
     const cities = new City();
-    cities.addRandom(5);
+    cities.addRandom(6);
     cities.searchShortestPath();
 }
 

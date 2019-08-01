@@ -30,7 +30,7 @@ nav {
 }
 
 .nav-bar {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 .footer {
@@ -66,5 +66,6 @@ nav {
     width:100%;
     display: flex;
     justify-content: flex-end;
-    
+    height: 600px;
+    margin-top: -20px;
 }
