@@ -321,10 +321,34 @@ module.exports = FastPriorityQueue;
 },{}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var index_1 = require("../index");
+//import { drawFrameCounter } from "../phyisics/helpers";
+var countFrames_1 = require("../countFrames");
+var framesPerMinute = new countFrames_1.CountFramesClass();
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+function setup() {
+    canvas.style.backgroundColor = "#000";
+}
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    framesPerMinute.drawFrameCounter();
+    var animationId = requestAnimationFrame(draw);
+    index_1.animations.add(animationId);
+}
+function startTraveling() {
+    index_1.animations.clear(null);
+    setup();
+    draw();
+}
+exports.startTraveling = startTraveling;
+
+},{"../countFrames":13,"../index":14}],3:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
 var countFrames_1 = require("../countFrames");
 var index_1 = require("../index");
-var drawFrameCounter = require("../phyisics/helpers").drawFrameCounter;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var frameCounter = new countFrames_1.CountFramesClass();
@@ -354,7 +378,7 @@ function draw() {
         }
         return console.log(path);
     }
-    drawFrameCounter(frameCounter, ctx, canvas);
+    frameCounter.drawFrameCounter();
     var animation = requestAnimationFrame(draw);
     index_1.animations.add(animation);
 }
@@ -365,13 +389,12 @@ function startAStart() {
 }
 exports.startAStart = startAStart;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"./grid":5}],3:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"./grid":6}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
 var countFrames_1 = require("../countFrames");
 var index_1 = require("../index");
-var drawFrameCounter = require("../phyisics/helpers").drawFrameCounter;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var frameCounter = new countFrames_1.CountFramesClass();
@@ -402,7 +425,7 @@ function draw() {
         }
         return console.log(path);
     }
-    drawFrameCounter(frameCounter, ctx, canvas);
+    frameCounter.drawFrameCounter();
     var animation = requestAnimationFrame(draw);
     index_1.animations.add(animation);
 }
@@ -413,13 +436,12 @@ function startBFS() {
 }
 exports.startBFS = startBFS;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"./grid":5}],4:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"./grid":6}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
 var countFrames_1 = require("../countFrames");
 var index_1 = require("../index");
-var drawFrameCounter = require("../phyisics/helpers").drawFrameCounter;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var frameCounter = new countFrames_1.CountFramesClass();
@@ -449,7 +471,7 @@ function draw() {
         }
         return console.log(path);
     }
-    drawFrameCounter(frameCounter, ctx, canvas);
+    frameCounter.drawFrameCounter();
     var animation = requestAnimationFrame(draw);
     index_1.animations.add(animation);
 }
@@ -460,7 +482,7 @@ function startDFS() {
 }
 exports.startDFS = startDFS;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"./grid":5}],5:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"./grid":6}],6:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -606,7 +628,7 @@ var Maze = /** @class */ (function (_super) {
 }(Grid));
 exports.Maze = Maze;
 
-},{"fastpriorityqueue":1}],6:[function(require,module,exports){
+},{"fastpriorityqueue":1}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -641,17 +663,16 @@ var DNA = /** @class */ (function () {
 }());
 exports.DNA = DNA;
 
-},{"../vector":19}],7:[function(require,module,exports){
+},{"../vector":20}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
 var vector_1 = require("../vector");
 var index_1 = require("../index");
 var Population = require("./population").Population;
-var drawFrameCounter = require("../phyisics/helpers").drawFrameCounter;
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var framesPerMinute;
+var framesPerMinute = new countFrames_1.CountFramesClass();
 var lifeSpan = 400;
 var target = new vector_1.VectorClass(canvas.width / 2, 50);
 var framesCounter = 0;
@@ -660,7 +681,6 @@ function rocketSetup() {
     framesCounter = 0;
     rockets = new Population(100, lifeSpan, canvas);
     canvas.style.backgroundColor = "#151513";
-    framesPerMinute = new countFrames_1.CountFramesClass();
 }
 function drawTarget() {
     ctx.beginPath();
@@ -698,7 +718,7 @@ function draw() {
     drawRockets(rockets);
     drawTarget();
     framesCounter++;
-    drawFrameCounter(framesPerMinute, ctx, canvas);
+    framesPerMinute.drawFrameCounter();
     var animationId = requestAnimationFrame(draw);
     index_1.animations.add(animationId);
 }
@@ -709,7 +729,7 @@ function startRocket() {
 }
 exports.startRocket = startRocket;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19,"./population":8}],8:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"../vector":20,"./population":9}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rocket_1 = require("./rocket");
@@ -761,7 +781,7 @@ var Population = /** @class */ (function () {
 }());
 exports.Population = Population;
 
-},{"./rocket":9}],9:[function(require,module,exports){
+},{"./rocket":10}],10:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -834,7 +854,7 @@ var Rocket = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Rocket = Rocket;
 
-},{"../ball":11,"../vector":19,"./DNA":6}],10:[function(require,module,exports){
+},{"../ball":12,"../vector":20,"./DNA":7}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas = document.getElementById("canvas");
@@ -856,7 +876,7 @@ var Animations = /** @class */ (function () {
 }());
 exports.Animations = Animations;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("./vector");
@@ -893,9 +913,11 @@ var BallClass = /** @class */ (function () {
 }());
 exports.BallClass = BallClass;
 
-},{"./vector":19}],12:[function(require,module,exports){
+},{"./vector":20}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
 var CountFramesClass = /** @class */ (function () {
     function CountFramesClass() {
         this.frames = 1;
@@ -913,12 +935,20 @@ var CountFramesClass = /** @class */ (function () {
             this.frames++;
         }
     };
+    CountFramesClass.prototype.drawFrameCounter = function () {
+        this.add();
+        ctx.beginPath();
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "red";
+        ctx.fillText("FPS:" + this.lastSecondFrames, 10, canvas.height - 10);
+        ctx.closePath();
+    };
     CountFramesClass.prototype.reset = function () { this.frames = 1; };
     return CountFramesClass;
 }());
 exports.CountFramesClass = CountFramesClass;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
@@ -927,6 +957,7 @@ var startBouncing = require("./phyisics/drag").startBouncing;
 var startOrbit = require("./phyisics/ga").startOrbit;
 var startGello = require("./phyisics/friction").startGello;
 var startAdvencedSteering = require("./phyisics/steering").startAdvencedSteering;
+var startTraveling = require("./CSProblems/travelingSp").startTraveling;
 var startRocket = require("./SmartRockets/index").startRocket;
 var startAStart = require("./Graphs/astar").startAStart;
 var startBFS = require("./Graphs/bfs").startBFS;
@@ -939,6 +970,7 @@ var steeringAdvencedBtn = document.querySelector("#steering-advenced-btn");
 var AStarBtn = document.querySelector("#a-star-btn");
 var bfsBtn = document.querySelector("#bfs-btn");
 var dfsBtn = document.querySelector("#dfs-btn");
+var tsBtn = document.querySelector("#ts-btn");
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
 gelloBtn.addEventListener("click", startGello);
@@ -947,8 +979,9 @@ steeringAdvencedBtn.addEventListener("click", startAdvencedSteering);
 AStarBtn.addEventListener("click", startAStart);
 bfsBtn.addEventListener("click", startBFS);
 dfsBtn.addEventListener("click", startDFS);
+tsBtn.addEventListener("click", startTraveling);
 
-},{"./Graphs/astar":2,"./Graphs/bfs":3,"./Graphs/dfs":4,"./SmartRockets/index":7,"./animations":10,"./phyisics/drag":14,"./phyisics/friction":15,"./phyisics/ga":16,"./phyisics/steering":18}],14:[function(require,module,exports){
+},{"./CSProblems/travelingSp":2,"./Graphs/astar":3,"./Graphs/bfs":4,"./Graphs/dfs":5,"./SmartRockets/index":8,"./animations":11,"./phyisics/drag":15,"./phyisics/friction":16,"./phyisics/ga":17,"./phyisics/steering":19}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -956,15 +989,14 @@ var countFrames_1 = require("../countFrames");
 var index_1 = require("../index");
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
+var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck;
 var balls = [];
 var animationId;
-var framesCounter;
+var framesCounter = new countFrames_1.CountFramesClass();
 function setupBouncing() {
     balls = [];
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#151513";
-    framesCounter = new countFrames_1.CountFramesClass();
     balls = createBalls(5, canvas);
 }
 function drawBall(item, color) {
@@ -992,7 +1024,7 @@ function drawBall(item, color) {
 function drawBouncing() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBalls(balls, "red", function (ball, color) { return drawBall(ball, color); });
-    drawFrameCounter(framesCounter, ctx, canvas);
+    framesCounter.drawFrameCounter();
     animationId = requestAnimationFrame(drawBouncing);
     index_1.animations.add(animationId);
 }
@@ -1003,7 +1035,7 @@ function startBouncing() {
 }
 exports.startBouncing = startBouncing;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19}],15:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"../phyisics/helpers":18,"../vector":20}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1011,15 +1043,14 @@ var countFrames_1 = require("../countFrames");
 var index_1 = require("../index");
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
+var _a = require("../phyisics/helpers"), createBalls = _a.createBalls, drawBalls = _a.drawBalls, bounderyCheck = _a.bounderyCheck;
 var animationId;
-var framesCounter;
+var framesCounter = new countFrames_1.CountFramesClass();
 var balls = [];
 function setupGello() {
     balls = []; // clearing balls
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#151513";
-    framesCounter = new countFrames_1.CountFramesClass();
     balls = createBalls(5, canvas);
 }
 function drawRect(x, y, width, height, color) {
@@ -1058,7 +1089,7 @@ function drawGello() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawRect(0, canvas.height / 2, canvas.width, canvas.height / 2, "lightgrey");
     drawBalls(balls, "red", function (ball, color) { return drawBall(ball, color); });
-    drawFrameCounter(framesCounter, ctx, canvas);
+    framesCounter.drawFrameCounter();
     animationId = requestAnimationFrame(drawGello);
     index_1.animations.add(animationId);
 }
@@ -1069,7 +1100,7 @@ function startGello() {
 }
 exports.startGello = startGello;
 
-},{"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19}],16:[function(require,module,exports){
+},{"../countFrames":13,"../index":14,"../phyisics/helpers":18,"../vector":20}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1078,9 +1109,9 @@ var ball_1 = require("../ball");
 var index_1 = require("../index");
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-var _a = require("../phyisics/helpers"), bounderyCheck = _a.bounderyCheck, drawFrameCounter = _a.drawFrameCounter;
+var bounderyCheck = require("../phyisics/helpers").bounderyCheck;
 var animationId;
-var framesCounter;
+var framesCounter = new countFrames_1.CountFramesClass();
 var gravity;
 gravity = new vector_1.VectorClass();
 var attractor;
@@ -1090,7 +1121,6 @@ var attractedConfig;
 function setupOrbit() {
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#151513";
-    framesCounter = new countFrames_1.CountFramesClass();
     attractorConfig = {
         acc: { x: 0, y: 0 },
         pos: { x: canvas.width / 2, y: canvas.height / 2 },
@@ -1136,7 +1166,7 @@ function drawOrbit() {
     attracted.move();
     bounderyCheck(attractor, canvas);
     bounderyCheck(attracted, canvas);
-    drawFrameCounter(framesCounter, ctx, canvas);
+    framesCounter.drawFrameCounter();
     animationId = requestAnimationFrame(drawOrbit);
     index_1.animations.add(animationId);
 }
@@ -1147,7 +1177,7 @@ function startOrbit() {
 }
 exports.startOrbit = startOrbit;
 
-},{"../ball":11,"../countFrames":12,"../index":13,"../phyisics/helpers":17,"../vector":19}],17:[function(require,module,exports){
+},{"../ball":12,"../countFrames":13,"../index":14,"../phyisics/helpers":18,"../vector":20}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
@@ -1162,15 +1192,6 @@ function drawBalls(balls, color, cb) {
     }
 }
 exports.drawBalls = drawBalls;
-function drawFrameCounter(framesCounter, ctx, canvas) {
-    framesCounter.add();
-    ctx.beginPath();
-    ctx.font = "14px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText("FPS:" + framesCounter.lastSecondFrames, 10, canvas.height - 10);
-    ctx.closePath();
-}
-exports.drawFrameCounter = drawFrameCounter;
 function createBalls(numOfBalls, canvas) {
     var balls = [];
     var ball;
@@ -1208,15 +1229,17 @@ function bounderyCheck(ball, canvas) {
 }
 exports.bounderyCheck = bounderyCheck;
 
-},{"../ball":11}],18:[function(require,module,exports){
+},{"../ball":12}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var countFrames_1 = require("../countFrames");
 var ball_1 = require("../ball");
 var vehicle_1 = require("../vehicle");
 var index_1 = require("../index");
 var canvas = document.getElementById("canvas");
 var foods = createObjects(50);
 var poisons = createObjects(10);
+var framesCounter = new countFrames_1.CountFramesClass();
 var mousePos = { x: 0, y: 0 };
 var ctx = canvas.getContext("2d");
 var vehicle = new vehicle_1.Vehicle();
@@ -1277,6 +1300,7 @@ function draw() {
     vehicle.move();
     var animationId = requestAnimationFrame(draw);
     index_1.animations.add(animationId);
+    framesCounter.drawFrameCounter();
 }
 function startAdvencedSteering() {
     index_1.animations.clear(null);
@@ -1285,7 +1309,7 @@ function startAdvencedSteering() {
 }
 exports.startAdvencedSteering = startAdvencedSteering;
 
-},{"../ball":11,"../index":13,"../vehicle":20}],19:[function(require,module,exports){
+},{"../ball":12,"../countFrames":13,"../index":14,"../vehicle":21}],20:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function randomNumber(min, max) {
@@ -1368,7 +1392,7 @@ var VectorClass = /** @class */ (function () {
 }());
 exports.VectorClass = VectorClass;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1476,4 +1500,4 @@ var Vehicle = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Vehicle = Vehicle;
 
-},{"./ball":11,"./vector":19}]},{},[13]);
+},{"./ball":12,"./vector":20}]},{},[14]);
