@@ -1,28 +1,21 @@
 import { animations } from "../index";
-//import { drawFrameCounter } from "../phyisics/helpers";
-import { CountFramesClass } from "../countFrames";
-let framesPerMinute = new CountFramesClass();
-
+import { City } from "./city"
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
 
-function setup() {
+
+async function setup() {
     canvas.style.backgroundColor = "#000";
+
+    const cities = new City();
+    cities.addRandom(5);
+    cities.searchShortestPath();
 }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    framesPerMinute.drawFrameCounter();
-    const animationId = requestAnimationFrame(draw);
-    animations.add(animationId);
-    
-}
 
 export function startTraveling() {
     animations.clear(null);
     setup();
-    draw();
 }
 
 

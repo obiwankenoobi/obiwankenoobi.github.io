@@ -64,7 +64,7 @@ export class Rocket extends BallClass {
         const random = Math.random();
         if (random <= 0.01) {
             const randomIdx = Math.floor(Math.random() * this.dnaLen);
-            const randomVector = VectorClass.randomVector(canvas.width, canvas.height);               
+            const randomVector = VectorClass.randomVector(-canvas.width, canvas.width, -canvas.height, canvas.height);               
             randomVector.setMag(0.1);
             this.dna.genes[randomIdx] = randomVector;
         }

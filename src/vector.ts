@@ -83,9 +83,10 @@ export class VectorClass {
         return distLen;
     }
 
-    static randomVector(canvasWidth: number, canvasHight: number) {
-        const x: number = Math.floor(randomNumber(-canvasWidth, canvasWidth));
-        const y: number = Math.floor(randomNumber(-canvasHight, canvasHight));
+    static randomVector(startWidth:number, endWidth:number, startHeight:number, endHeight:number) {
+
+        const x: number = Math.floor(randomNumber(startWidth, endWidth));
+        const y: number = Math.floor(randomNumber(startHeight, endHeight));
         return new VectorClass(x, y);
     }
 

@@ -11,8 +11,9 @@ export class DNA {
             this.genes = dna;
         } else {
             for (let idx = 0; idx < dnaLen; idx++) {
-                this.genes[idx] = VectorClass.randomVector(canvas.width, canvas.height);               
+                this.genes[idx] = VectorClass.randomVector(-canvas.width, canvas.width, -canvas.height, canvas.height);               
                 this.genes[idx].setMag(0.1);
+
             }
         }
     }
