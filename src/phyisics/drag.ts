@@ -5,19 +5,18 @@ import { animations } from "../index";
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
+const { createBalls, drawBalls, bounderyCheck } = require("../phyisics/helpers");
 
 
 
-let balls: Array<typeof BallClass> = [];
+let balls: Array<BallClass> = [];
 let animationId: number;
-let framesCounter: CountFramesClass;
+let framesCounter = new CountFramesClass();
 
 function setupBouncing() {
     balls = [];
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#151513";
-    framesCounter = new CountFramesClass();
     balls = createBalls(5, canvas);
 }
 
@@ -59,7 +58,7 @@ function drawBouncing() {
         "red", 
         (ball: BallClass, color: string) => drawBall(ball, color));
 
-    drawFrameCounter(framesCounter, ctx, canvas);
+    framesCounter.drawFrameCounter();
     animationId = requestAnimationFrame(drawBouncing);
     animations.add(animationId);
 }

@@ -6,6 +6,8 @@ const { startOrbit } = require("./phyisics/ga");
 const { startGello } = require("./phyisics/friction");
 const { startAdvencedSteering } = require("./phyisics/steering");
 
+const { startTraveling } = require("./CSProblems/travelingSp");
+
 const { startRocket } = require("./SmartRockets/index");
 
 const { startAStart } = require("./Graphs/astar");
@@ -20,6 +22,7 @@ const steeringAdvencedBtn = document.querySelector("#steering-advenced-btn");
 const AStarBtn = document.querySelector("#a-star-btn");
 const bfsBtn = document.querySelector("#bfs-btn");
 const dfsBtn = document.querySelector("#dfs-btn");
+const tsBtn = document.querySelector("#ts-btn");
 
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
@@ -29,3 +32,4 @@ steeringAdvencedBtn.addEventListener("click", startAdvencedSteering);
 AStarBtn.addEventListener("click", startAStart);
 bfsBtn.addEventListener("click", startBFS);
 dfsBtn.addEventListener("click", startDFS);
+tsBtn.addEventListener("click", startTraveling);

@@ -1,3 +1,6 @@
+const canvas = <HTMLCanvasElement> document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
 export class CountFramesClass {
     public frames: number;
     public lastSecondFrames: number;
@@ -18,6 +21,17 @@ export class CountFramesClass {
             this.lastTime = now;
         } else { this.frames++; }
     }
+
+    drawFrameCounter() {
+        this.add();
+        ctx.beginPath();
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "red";
+        ctx.fillText("FPS:" + this.lastSecondFrames, 10, canvas.height - 10);
+        ctx.closePath();
+    }
+
+
     reset() { this.frames = 1; }
 }
 

@@ -5,11 +5,11 @@ import { animations } from "../index";
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const { bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
+const { bounderyCheck } = require("../phyisics/helpers");
 
 let animationId: number;
 
-let framesCounter: CountFramesClass;
+let framesCounter = new CountFramesClass();
 
 let gravity: VectorClass;
 gravity = new VectorClass();
@@ -24,9 +24,6 @@ let attractedConfig: Config;
 function setupOrbit() {
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#151513";
-
-
-    framesCounter = new CountFramesClass();
 
     attractorConfig = {
         acc:      { x: 0, y: 0 },
@@ -94,7 +91,7 @@ function drawOrbit() {
     bounderyCheck(attractor, canvas);
     bounderyCheck(attracted, canvas);
 
-    drawFrameCounter(framesCounter, ctx, canvas);
+    framesCounter.drawFrameCounter();
     animationId = requestAnimationFrame(drawOrbit);
     animations.add(animationId);
 }

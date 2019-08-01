@@ -12,14 +12,7 @@ export function drawBalls(balls: Array<BallClass>, color: string, cb: Function) 
     }
 }
 
-export function drawFrameCounter(framesCounter:CountFramesClass, ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-    framesCounter.add();
-    ctx.beginPath();
-    ctx.font = "14px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText("FPS:" + framesCounter.lastSecondFrames, 10, canvas.height - 10);
-    ctx.closePath();
-}
+
 
 export function createBalls(numOfBalls: number, canvas: HTMLCanvasElement) {
     let balls: Array<BallClass> = [];

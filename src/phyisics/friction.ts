@@ -5,10 +5,10 @@ import { animations } from "../index";
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const { createBalls, drawBalls, bounderyCheck, drawFrameCounter } = require("../phyisics/helpers");
+const { createBalls, drawBalls, bounderyCheck } = require("../phyisics/helpers");
 
 let animationId: number;
-let framesCounter: CountFramesClass;
+let framesCounter = new CountFramesClass();
 let balls: Array<typeof BallClass> = [];
 
 
@@ -16,7 +16,6 @@ function setupGello() {
     balls = []; // clearing balls
     cancelAnimationFrame(animationId);
     canvas.style.backgroundColor = "#151513";
-    framesCounter = new CountFramesClass();
     balls = createBalls(5, canvas);
 }
 
@@ -74,7 +73,7 @@ function drawGello() {
         "red", 
         (ball: BallClass, color: string) => drawBall(ball, color));
 
-    drawFrameCounter(framesCounter, ctx, canvas);
+    framesCounter.drawFrameCounter();
     animationId = requestAnimationFrame(drawGello);
     animations.add(animationId);
 }

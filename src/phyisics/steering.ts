@@ -8,7 +8,7 @@ import { animations } from "../index";
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const foods = createObjects(50);
 const poisons = createObjects(10);
-
+let framesCounter = new CountFramesClass();
 let mousePos = { x: 0, y: 0 }
 
 const ctx = canvas.getContext("2d");
@@ -84,6 +84,7 @@ function draw() {
     vehicle.move();
     const animationId = requestAnimationFrame(draw);
     animations.add(animationId);
+    framesCounter.drawFrameCounter();
 }
 
 

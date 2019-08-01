@@ -3,13 +3,13 @@ import { CountFramesClass } from "../countFrames";
 import { VectorClass } from "../vector";
 import { animations } from "../index";
 const { Population } = require("./population");
-const { drawFrameCounter } = require("../phyisics/helpers");
+
 
 
 
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-let framesPerMinute: CountFramesClass;
+let framesPerMinute = new CountFramesClass();
 const lifeSpan = 400;
 const target = new VectorClass(canvas.width / 2, 50);
 
@@ -22,8 +22,6 @@ function rocketSetup(): void {
     framesCounter = 0;
     rockets = new Population(100, lifeSpan, canvas);
     canvas.style.backgroundColor = "#151513";
-    framesPerMinute = new CountFramesClass();
-
 }
 
 
@@ -71,7 +69,7 @@ function draw(): void {
     drawRockets(rockets);
     drawTarget();
     framesCounter++;
-    drawFrameCounter(framesPerMinute, ctx, canvas);
+    framesPerMinute.drawFrameCounter();
     const animationId = requestAnimationFrame(draw);
     animations.add(animationId)
 }
