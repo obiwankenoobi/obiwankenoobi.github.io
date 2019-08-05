@@ -6,7 +6,7 @@ const { startOrbit } = require("./phyisics/ga");
 const { startGello } = require("./phyisics/friction");
 const { startAdvencedSteering } = require("./phyisics/steering");
 
-const { startTraveling } = require("./CSProblems/travelingSp");
+const { startTraveling } = require("./CSProblems/TravelingSP/travelingSp");
 
 const { startRocket } = require("./SmartRockets/index");
 

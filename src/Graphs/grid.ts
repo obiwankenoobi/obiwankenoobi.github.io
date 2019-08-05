@@ -16,7 +16,7 @@ export class Grid {
     public cols: number;
     public canvas: HTMLCanvasElement;
     public ctx: CanvasRenderingContext2D;
-    public grid: Array<Array<number>>;
+    public grid: number[][];
     public tileW: number;
     public tileH: number;
     public walls: number = 0.25; 

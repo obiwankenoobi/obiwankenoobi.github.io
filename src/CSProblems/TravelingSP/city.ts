@@ -1,5 +1,5 @@
-import { VectorClass } from "../vector";
-import { CountFramesClass } from "../countFrames";
+import { VectorClass } from "../../vector";
+import { CountFramesClass } from "../../countFrames";
 
 const framesPerMinute = new CountFramesClass();
 const canvas = <HTMLCanvasElement> document.getElementById("canvas");

@@ -1,6 +1,6 @@
-export function randomNumber(min:number ,max: number) {
-    return Math.floor(Math.random()*(max-min+1)+min);
-}
+import { randomNumber } from "./Helpers"
+
+
 export class VectorClass {
 
     public x:number;

@@ -1,10 +1,8 @@
 
 import { BallClass, Config } from "../ball";
-import { CountFramesClass } from "../countFrames";
+import { randomNumber } from "../Helpers"
 
-export function randomNumber(min:number ,max: number) {
-    return Math.floor(Math.random()*(max-min+1)+min);
-}
+
 
 export function drawBalls(balls: Array<BallClass>, color: string, cb: Function) {
     for (const ball of balls) {
