@@ -356,8 +356,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var vector_1 = require("../vector");
-var countFrames_1 = require("../countFrames");
+var vector_1 = require("../../vector");
+var countFrames_1 = require("../../countFrames");
 var framesPerMinute = new countFrames_1.CountFramesClass();
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -476,7 +476,7 @@ var City = /** @class */ (function () {
 }());
 exports.City = City;
 
-},{"../countFrames":14,"../vector":21}],3:[function(require,module,exports){
+},{"../../countFrames":15,"../../vector":22}],3:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -514,14 +514,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = require("../index");
+var index_1 = require("../../index");
 var city_1 = require("./city");
 var canvas = document.getElementById("canvas");
 function setup() {
     return __awaiter(this, void 0, void 0, function () {
         var cities;
         return __generator(this, function (_a) {
-            canvas.style.backgroundColor = "#000";
+            canvas.style.backgroundColor = "#151513";
             cities = new city_1.City();
             cities.addRandom(6);
             cities.searchShortestPath();
@@ -529,13 +529,14 @@ function setup() {
         });
     });
 }
+//
 function startTraveling() {
     index_1.animations.clear(null);
     setup();
 }
 exports.startTraveling = startTraveling;
 
-},{"../index":15,"./city":2}],4:[function(require,module,exports){
+},{"../../index":16,"./city":2}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -581,7 +582,7 @@ function startAStart() {
 }
 exports.startAStart = startAStart;
 
-},{"../countFrames":14,"../index":15,"./grid":7}],5:[function(require,module,exports){
+},{"../countFrames":15,"../index":16,"./grid":7}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -628,7 +629,7 @@ function startBFS() {
 }
 exports.startBFS = startBFS;
 
-},{"../countFrames":14,"../index":15,"./grid":7}],6:[function(require,module,exports){
+},{"../countFrames":15,"../index":16,"./grid":7}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -674,7 +675,7 @@ function startDFS() {
 }
 exports.startDFS = startDFS;
 
-},{"../countFrames":14,"../index":15,"./grid":7}],7:[function(require,module,exports){
+},{"../countFrames":15,"../index":16,"./grid":7}],7:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -823,6 +824,14 @@ exports.Maze = Maze;
 },{"fastpriorityqueue":1}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+exports.randomNumber = randomNumber;
+
+},{}],9:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
 var canvas = document.getElementById("canvas");
 var DNA = /** @class */ (function () {
@@ -855,7 +864,7 @@ var DNA = /** @class */ (function () {
 }());
 exports.DNA = DNA;
 
-},{"../vector":21}],9:[function(require,module,exports){
+},{"../vector":22}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
@@ -921,7 +930,7 @@ function startRocket() {
 }
 exports.startRocket = startRocket;
 
-},{"../countFrames":14,"../index":15,"../vector":21,"./population":10}],10:[function(require,module,exports){
+},{"../countFrames":15,"../index":16,"../vector":22,"./population":11}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rocket_1 = require("./rocket");
@@ -973,7 +982,7 @@ var Population = /** @class */ (function () {
 }());
 exports.Population = Population;
 
-},{"./rocket":11}],11:[function(require,module,exports){
+},{"./rocket":12}],12:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1046,7 +1055,7 @@ var Rocket = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Rocket = Rocket;
 
-},{"../ball":13,"../vector":21,"./DNA":8}],12:[function(require,module,exports){
+},{"../ball":14,"../vector":22,"./DNA":9}],13:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas = document.getElementById("canvas");
@@ -1068,7 +1077,7 @@ var Animations = /** @class */ (function () {
 }());
 exports.Animations = Animations;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("./vector");
@@ -1105,7 +1114,7 @@ var BallClass = /** @class */ (function () {
 }());
 exports.BallClass = BallClass;
 
-},{"./vector":21}],14:[function(require,module,exports){
+},{"./vector":22}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas = document.getElementById("canvas");
@@ -1140,7 +1149,7 @@ var CountFramesClass = /** @class */ (function () {
 }());
 exports.CountFramesClass = CountFramesClass;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
@@ -1149,7 +1158,7 @@ var startBouncing = require("./phyisics/drag").startBouncing;
 var startOrbit = require("./phyisics/ga").startOrbit;
 var startGello = require("./phyisics/friction").startGello;
 var startAdvencedSteering = require("./phyisics/steering").startAdvencedSteering;
-var startTraveling = require("./CSProblems/travelingSp").startTraveling;
+var startTraveling = require("./CSProblems/TravelingSP/travelingSp").startTraveling;
 var startRocket = require("./SmartRockets/index").startRocket;
 var startAStart = require("./Graphs/astar").startAStart;
 var startBFS = require("./Graphs/bfs").startBFS;
@@ -1173,7 +1182,7 @@ bfsBtn.addEventListener("click", startBFS);
 dfsBtn.addEventListener("click", startDFS);
 tsBtn.addEventListener("click", startTraveling);
 
-},{"./CSProblems/travelingSp":3,"./Graphs/astar":4,"./Graphs/bfs":5,"./Graphs/dfs":6,"./SmartRockets/index":9,"./animations":12,"./phyisics/drag":16,"./phyisics/friction":17,"./phyisics/ga":18,"./phyisics/steering":20}],16:[function(require,module,exports){
+},{"./CSProblems/TravelingSP/travelingSp":3,"./Graphs/astar":4,"./Graphs/bfs":5,"./Graphs/dfs":6,"./SmartRockets/index":10,"./animations":13,"./phyisics/drag":17,"./phyisics/friction":18,"./phyisics/ga":19,"./phyisics/steering":21}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1227,7 +1236,7 @@ function startBouncing() {
 }
 exports.startBouncing = startBouncing;
 
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":19,"../vector":21}],17:[function(require,module,exports){
+},{"../countFrames":15,"../index":16,"../phyisics/helpers":20,"../vector":22}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1292,7 +1301,7 @@ function startGello() {
 }
 exports.startGello = startGello;
 
-},{"../countFrames":14,"../index":15,"../phyisics/helpers":19,"../vector":21}],18:[function(require,module,exports){
+},{"../countFrames":15,"../index":16,"../phyisics/helpers":20,"../vector":22}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1369,14 +1378,11 @@ function startOrbit() {
 }
 exports.startOrbit = startOrbit;
 
-},{"../ball":13,"../countFrames":14,"../index":15,"../phyisics/helpers":19,"../vector":21}],19:[function(require,module,exports){
+},{"../ball":14,"../countFrames":15,"../index":16,"../phyisics/helpers":20,"../vector":22}],20:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
-function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-exports.randomNumber = randomNumber;
+var Helpers_1 = require("../Helpers");
 function drawBalls(balls, color, cb) {
     for (var _i = 0, balls_1 = balls; _i < balls_1.length; _i++) {
         var ball = balls_1[_i];
@@ -1393,7 +1399,7 @@ function createBalls(numOfBalls, canvas) {
             acc: { x: 0, y: 0 },
             pos: { x: (canvas.width / numOfBalls) / 2 + idx * (canvas.width / numOfBalls), y: 0 },
             velocity: { x: 0, y: 0 },
-            mass: randomNumber(1, 5)
+            mass: Helpers_1.randomNumber(1, 5)
         };
         ball = new ball_1.BallClass(ballConfig);
         balls.push(ball);
@@ -1421,7 +1427,7 @@ function bounderyCheck(ball, canvas) {
 }
 exports.bounderyCheck = bounderyCheck;
 
-},{"../ball":13}],20:[function(require,module,exports){
+},{"../Helpers":8,"../ball":14}],21:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
@@ -1501,13 +1507,10 @@ function startAdvencedSteering() {
 }
 exports.startAdvencedSteering = startAdvencedSteering;
 
-},{"../ball":13,"../countFrames":14,"../index":15,"../vehicle":22}],21:[function(require,module,exports){
+},{"../ball":14,"../countFrames":15,"../index":16,"../vehicle":23}],22:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function randomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-exports.randomNumber = randomNumber;
+var Helpers_1 = require("./Helpers");
 var VectorClass = /** @class */ (function () {
     function VectorClass(x, y) {
         if (x === void 0) { x = 0; }
@@ -1573,8 +1576,8 @@ var VectorClass = /** @class */ (function () {
         return distLen;
     };
     VectorClass.randomVector = function (startWidth, endWidth, startHeight, endHeight) {
-        var x = Math.floor(randomNumber(startWidth, endWidth));
-        var y = Math.floor(randomNumber(startHeight, endHeight));
+        var x = Math.floor(Helpers_1.randomNumber(startWidth, endWidth));
+        var y = Math.floor(Helpers_1.randomNumber(startHeight, endHeight));
         return new VectorClass(x, y);
     };
     VectorClass.prototype.get = function () {
@@ -1584,7 +1587,7 @@ var VectorClass = /** @class */ (function () {
 }());
 exports.VectorClass = VectorClass;
 
-},{}],22:[function(require,module,exports){
+},{"./Helpers":8}],23:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1692,4 +1695,4 @@ var Vehicle = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Vehicle = Vehicle;
 
-},{"./ball":13,"./vector":21}]},{},[15]);
+},{"./ball":14,"./vector":22}]},{},[16]);
