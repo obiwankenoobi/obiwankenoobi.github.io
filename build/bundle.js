@@ -476,7 +476,7 @@ var City = /** @class */ (function () {
 }());
 exports.City = City;
 
-},{"../../countFrames":15,"../../vector":22}],3:[function(require,module,exports){
+},{"../../countFrames":16,"../../vector":23}],3:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -536,7 +536,7 @@ function startTraveling() {
 }
 exports.startTraveling = startTraveling;
 
-},{"../../index":16,"./city":2}],4:[function(require,module,exports){
+},{"../../index":17,"./city":2}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -582,7 +582,7 @@ function startAStart() {
 }
 exports.startAStart = startAStart;
 
-},{"../countFrames":15,"../index":16,"./grid":7}],5:[function(require,module,exports){
+},{"../countFrames":16,"../index":17,"./grid":7}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -629,7 +629,7 @@ function startBFS() {
 }
 exports.startBFS = startBFS;
 
-},{"../countFrames":15,"../index":16,"./grid":7}],6:[function(require,module,exports){
+},{"../countFrames":16,"../index":17,"./grid":7}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var grid_1 = require("./grid");
@@ -675,7 +675,7 @@ function startDFS() {
 }
 exports.startDFS = startDFS;
 
-},{"../countFrames":15,"../index":16,"./grid":7}],7:[function(require,module,exports){
+},{"../countFrames":16,"../index":17,"./grid":7}],7:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -832,6 +832,18 @@ exports.randomNumber = randomNumber;
 },{}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+function showImg() {
+    // const img = document.createElement("img");
+    // const imgContainer = document.querySelector("#project-img");
+    // img.setAttribute("src" , "img/mini_editor.gif");
+    // imgContainer.appendChild(img);
+    // console.log("hello")
+}
+exports.showImg = showImg;
+
+},{}],10:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
 var canvas = document.getElementById("canvas");
 var DNA = /** @class */ (function () {
@@ -864,7 +876,7 @@ var DNA = /** @class */ (function () {
 }());
 exports.DNA = DNA;
 
-},{"../vector":22}],10:[function(require,module,exports){
+},{"../vector":23}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
@@ -930,7 +942,7 @@ function startRocket() {
 }
 exports.startRocket = startRocket;
 
-},{"../countFrames":15,"../index":16,"../vector":22,"./population":11}],11:[function(require,module,exports){
+},{"../countFrames":16,"../index":17,"../vector":23,"./population":12}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rocket_1 = require("./rocket");
@@ -982,7 +994,7 @@ var Population = /** @class */ (function () {
 }());
 exports.Population = Population;
 
-},{"./rocket":12}],12:[function(require,module,exports){
+},{"./rocket":13}],13:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1055,7 +1067,7 @@ var Rocket = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Rocket = Rocket;
 
-},{"../ball":14,"../vector":22,"./DNA":9}],13:[function(require,module,exports){
+},{"../ball":15,"../vector":23,"./DNA":10}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas = document.getElementById("canvas");
@@ -1077,7 +1089,7 @@ var Animations = /** @class */ (function () {
 }());
 exports.Animations = Animations;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("./vector");
@@ -1114,7 +1126,7 @@ var BallClass = /** @class */ (function () {
 }());
 exports.BallClass = BallClass;
 
-},{"./vector":22}],15:[function(require,module,exports){
+},{"./vector":23}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var canvas = document.getElementById("canvas");
@@ -1149,7 +1161,7 @@ var CountFramesClass = /** @class */ (function () {
 }());
 exports.CountFramesClass = CountFramesClass;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var animations_1 = require("./animations");
@@ -1163,6 +1175,7 @@ var startRocket = require("./SmartRockets/index").startRocket;
 var startAStart = require("./Graphs/astar").startAStart;
 var startBFS = require("./Graphs/bfs").startBFS;
 var startDFS = require("./Graphs/dfs").startDFS;
+var showImg = require("./Projects").showImg;
 var bouncingBtn = document.querySelector("#bouncing-btn");
 var orbitingBtn = document.querySelector("#orbiting-btn");
 var gelloBtn = document.querySelector("#gello-btn");
@@ -1172,6 +1185,7 @@ var AStarBtn = document.querySelector("#a-star-btn");
 var bfsBtn = document.querySelector("#bfs-btn");
 var dfsBtn = document.querySelector("#dfs-btn");
 var tsBtn = document.querySelector("#ts-btn");
+var miniEditorBtn = document.querySelector("#miniEditor-btn");
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
 gelloBtn.addEventListener("click", startGello);
@@ -1181,8 +1195,9 @@ AStarBtn.addEventListener("click", startAStart);
 bfsBtn.addEventListener("click", startBFS);
 dfsBtn.addEventListener("click", startDFS);
 tsBtn.addEventListener("click", startTraveling);
+miniEditorBtn.addEventListener("click", showImg);
 
-},{"./CSProblems/TravelingSP/travelingSp":3,"./Graphs/astar":4,"./Graphs/bfs":5,"./Graphs/dfs":6,"./SmartRockets/index":10,"./animations":13,"./phyisics/drag":17,"./phyisics/friction":18,"./phyisics/ga":19,"./phyisics/steering":21}],17:[function(require,module,exports){
+},{"./CSProblems/TravelingSP/travelingSp":3,"./Graphs/astar":4,"./Graphs/bfs":5,"./Graphs/dfs":6,"./Projects":9,"./SmartRockets/index":11,"./animations":14,"./phyisics/drag":18,"./phyisics/friction":19,"./phyisics/ga":20,"./phyisics/steering":22}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1236,7 +1251,7 @@ function startBouncing() {
 }
 exports.startBouncing = startBouncing;
 
-},{"../countFrames":15,"../index":16,"../phyisics/helpers":20,"../vector":22}],18:[function(require,module,exports){
+},{"../countFrames":16,"../index":17,"../phyisics/helpers":21,"../vector":23}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1301,7 +1316,7 @@ function startGello() {
 }
 exports.startGello = startGello;
 
-},{"../countFrames":15,"../index":16,"../phyisics/helpers":20,"../vector":22}],19:[function(require,module,exports){
+},{"../countFrames":16,"../index":17,"../phyisics/helpers":21,"../vector":23}],20:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector_1 = require("../vector");
@@ -1378,7 +1393,7 @@ function startOrbit() {
 }
 exports.startOrbit = startOrbit;
 
-},{"../ball":14,"../countFrames":15,"../index":16,"../phyisics/helpers":20,"../vector":22}],20:[function(require,module,exports){
+},{"../ball":15,"../countFrames":16,"../index":17,"../phyisics/helpers":21,"../vector":23}],21:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ball_1 = require("../ball");
@@ -1427,7 +1442,7 @@ function bounderyCheck(ball, canvas) {
 }
 exports.bounderyCheck = bounderyCheck;
 
-},{"../Helpers":8,"../ball":14}],21:[function(require,module,exports){
+},{"../Helpers":8,"../ball":15}],22:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var countFrames_1 = require("../countFrames");
@@ -1507,7 +1522,7 @@ function startAdvencedSteering() {
 }
 exports.startAdvencedSteering = startAdvencedSteering;
 
-},{"../ball":14,"../countFrames":15,"../index":16,"../vehicle":23}],22:[function(require,module,exports){
+},{"../ball":15,"../countFrames":16,"../index":17,"../vehicle":24}],23:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Helpers_1 = require("./Helpers");
@@ -1587,7 +1602,7 @@ var VectorClass = /** @class */ (function () {
 }());
 exports.VectorClass = VectorClass;
 
-},{"./Helpers":8}],23:[function(require,module,exports){
+},{"./Helpers":8}],24:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1695,4 +1710,4 @@ var Vehicle = /** @class */ (function (_super) {
 }(ball_1.BallClass));
 exports.Vehicle = Vehicle;
 
-},{"./ball":14,"./vector":22}]},{},[16]);
+},{"./ball":15,"./vector":23}]},{},[17]);

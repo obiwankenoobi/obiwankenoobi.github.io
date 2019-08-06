@@ -18,11 +18,17 @@ body {
     color:teal;
 }
 
+
+
 nav { 
     margin-bottom: 10px;
     width:100%;
 }
 
+.project-img {
+    /* flex-direction: column; */
+    /* width:50%; */
+}
 .container {
     display: flex;
     flex-direction: row;
