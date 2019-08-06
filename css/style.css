@@ -57,6 +57,7 @@ nav {
     color:#fff;
     transition: 0.5s;
 }
+
 .link_h3 {
     text-decoration: none;
     color:#151513;
@@ -74,6 +75,17 @@ nav {
 
 .me:hover {
     text-decoration: none;
+    color:teal;
+}
+
+.link-project {
+    color:#151513;
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.link-project:hover {
+
     color:teal;
 }
 
