@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./build/index.js",
-    "build": "browserify src/index.ts -p [ tsify --noImplicitAny ] > public/build/bundle.js",
-    "dev": "watchify src/index.ts -p [ tsify --noImplicitAny ] -o public/build/bundle.js"
+    "build": "browserify src/index.ts -p [ tsify --noImplicitAny ] > build/bundle.js",
+    "dev": "watchify src/index.ts -p [ tsify --noImplicitAny ] -o build/bundle.js"
   },
   "devDependencies": {
     "@types/node": "^12.6.2",

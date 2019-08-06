@@ -51,6 +51,15 @@ nav {
     color:#fff;
     transition: 0.5s;
 }
+.link_h3 {
+    text-decoration: none;
+    color:#151513;
+    transition: 0.5s;
+}
+
+.link_h3:hover {
+    color:teal;
+}
 
 .me {
     color:#fff;
