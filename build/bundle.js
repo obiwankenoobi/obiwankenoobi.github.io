@@ -1185,7 +1185,6 @@ var AStarBtn = document.querySelector("#a-star-btn");
 var bfsBtn = document.querySelector("#bfs-btn");
 var dfsBtn = document.querySelector("#dfs-btn");
 var tsBtn = document.querySelector("#ts-btn");
-var miniEditorBtn = document.querySelector("#miniEditor-btn");
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
 gelloBtn.addEventListener("click", startGello);
@@ -1195,7 +1194,6 @@ AStarBtn.addEventListener("click", startAStart);
 bfsBtn.addEventListener("click", startBFS);
 dfsBtn.addEventListener("click", startDFS);
 tsBtn.addEventListener("click", startTraveling);
-miniEditorBtn.addEventListener("click", showImg);
 
 },{"./CSProblems/TravelingSP/travelingSp":3,"./Graphs/astar":4,"./Graphs/bfs":5,"./Graphs/dfs":6,"./Projects":9,"./SmartRockets/index":11,"./animations":14,"./phyisics/drag":18,"./phyisics/friction":19,"./phyisics/ga":20,"./phyisics/steering":22}],18:[function(require,module,exports){
 "use strict";

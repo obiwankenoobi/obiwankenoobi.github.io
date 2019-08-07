@@ -24,7 +24,7 @@ const AStarBtn = document.querySelector("#a-star-btn");
 const bfsBtn = document.querySelector("#bfs-btn");
 const dfsBtn = document.querySelector("#dfs-btn");
 const tsBtn = document.querySelector("#ts-btn");
-const miniEditorBtn = document.querySelector("#miniEditor-btn");
+
 
 bouncingBtn.addEventListener("click", startBouncing);
 orbitingBtn.addEventListener("click", startOrbit);
@@ -35,4 +35,8 @@ AStarBtn.addEventListener("click", startAStart);
 bfsBtn.addEventListener("click", startBFS);
 dfsBtn.addEventListener("click", startDFS);
 tsBtn.addEventListener("click", startTraveling);
-miniEditorBtn.addEventListener("click", showImg);
+
+
+
+
+
